@@ -1,0 +1,19 @@
+
+
+/* Mobile & tablet fix */
+@media (max-width: 991px) {
+  .hero-highlights {
+    position: static;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-content {
+    height: auto !important;
+    padding-bottom: 2rem;
+  }
+
+  .hero-section {
+    min-height: auto;
+  }
+}

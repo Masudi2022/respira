@@ -1,0 +1,32 @@
+/* ===== HERO FIX ===== */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating highlights (desktop) */
+.hero-highlights {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+}
+
+/* Mobile & tablet fix */
+@media (max-width: 991px) {
+  .hero-highlights {
+    position: static;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-content {
+    height: auto !important;
+    padding-bottom: 2rem;
+  }
+
+  .hero-section {
+    min-height: auto;
+  }
+}
