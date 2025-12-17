@@ -17,3 +17,8 @@
     min-height: auto;
   }
 }
+
+body {
+  padding-top: 70px;
+}
+

@@ -1,13 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import RespiraHome from './Virtue/Pages/Home/Home'
+import { RespiraHeader, RespiraFooter } from "./components/lrespira_layout"; 
+import Maskani from "./Virtue/Pages/Home/maskani";
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <RespiraHome/>
-  )
+    <>
+      <RespiraHeader />
+     <Maskani />
+      {/* other sections */}
+      <RespiraFooter />
+    </>
+  );
 }
-
-export default App
+export default App;
