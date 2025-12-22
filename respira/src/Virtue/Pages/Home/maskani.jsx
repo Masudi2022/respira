@@ -2,7 +2,7 @@ import React from "react";
 
 // Import your homepage sections
 import RespiraHome from "../Home/Home";
-import Popular from "../destination/popular";
+import Popular from "../destination/popularDestination";
 import FeaturedTours from "../feuturedTour/features";
 import Experiences from "../experience/experience";
 import WhyChooseUs from "../choosingUs/choosingUs";

@@ -9,6 +9,7 @@ import {
   Clock,
   Map,
   Calendar,
+  ChevronDown,
   ChevronLeft,
   CheckCircle,
   Shield,
@@ -593,23 +594,18 @@ export default function RespiraHome() {
             gap: "10px"
           }}
         >
+         
           <div style={{
-            writingMode: "vertical-rl",
-            letterSpacing: "3px",
-            fontSize: "0.9rem",
-            opacity: 0.7
-          }}>
-            SCROLL
-          </div>
-          <div style={{
-            width: "1px",
-            height: "60px",
-            background: "linear-gradient(to bottom, rgba(255,255,255,0.9), transparent)"
+           
           }} />
-          <ArrowDown style={{
-            animation: "bounce 2s infinite",
-            fontSize: "1.2rem"
-          }} />
+            <ChevronDown
+            style={{
+              animation: "bounce 2s infinite",
+              fontSize: "2.5rem",
+              color: "white",
+              opacity: 0.9
+            }}
+          />
         </div>
       )}
 

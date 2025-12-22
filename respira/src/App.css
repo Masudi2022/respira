@@ -1,24 +1,35 @@
-
-
-/* Mobile & tablet fix */
-@media (max-width: 991px) {
-  .hero-highlights {
-    position: static;
-    margin-top: 2rem;
-    padding-bottom: 2rem;
-  }
-
-  .hero-content {
-    height: auto !important;
-    padding-bottom: 2rem;
-  }
-
-  .hero-section {
-    min-height: auto;
-  }
+/* Make sure everything stretches full height */
+html, body, #root {
+  height: 100%;
+  margin: 0;
 }
 
-body {
-  padding-top: 70px;
+/* Layout wrapper */
+.app-layout {
+  min-height: 100vh; /* full screen */
+  display: flex;
+  flex-direction: column;
 }
 
+/* Sticky header */
+.respira-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Main content must start below header */
+.main-content {
+  flex: 1;
+  /* padding-top: 40px; */
+  padding-bottom: 40px; /* breathing room before footer */
+}
+
+/* Footer styling */
+.respira-footer {
+  background: #f8f8f8;
+  padding: 20px 0;
+}

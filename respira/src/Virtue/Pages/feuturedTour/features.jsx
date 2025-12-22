@@ -1,54 +1,54 @@
 import React from "react";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
-import { Clock, CashStack, StarFill, ArrowRight } from "react-bootstrap-icons";
+import { Clock, CashStack, StarFill, ArrowRight, ShieldCheck, PeopleFill } from "react-bootstrap-icons";
 
 const PRIMARY = "#2FB6A6";
 
 const tours = [
   {
-    title: "Nakupenda & Prison Island Tour",
-    price: "$60",
+    title: "Nakupenda Island Day Trip",
+    // price: "$60",
     duration: "Full Day",
-    rating: 4.9,
+    // rating: 4.9,
     image:
-      "https://images.unsplash.com/photo-1544550581-1bcabf842b77?auto=format&fit=crop&w=1200&q=80",
+      "https://media.istockphoto.com/id/2236448463/photo/aerial-drone-footage-showcasing-the-stunning-white-sand-beaches-and-turquoise-waters-of.jpg?s=612x612&w=0&k=20&c=SCSnesKjrs3L80b3qECR3QNhscUfQjD96a4zrOV-fzA=",
     highlights: [
-      "Giant tortoises",
-      "Sandbank experience",
-      "Seafood lunch",
-      "Snorkeling"
+      "Visit giant tortoises",
+      "Relax on Nakupenda sandbank",
+      "Fresh seafood lunch",
+      "Snorkeling experience"
     ],
     badge: "Best Seller"
   },
   {
     title: "Blue Safari Adventure",
-    price: "$50",
+    // price: "$50",
     duration: "Full Day",
-    rating: 4.9,
+    // rating: 4.9,
     image:
-      "https://images.unsplash.com/photo-1526481280691-3d3c9c0f1c4f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1545583477-39bccc07119d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Ymx1ZSUyMHNhZmFyaSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
     highlights: [
-      "Snorkeling",
-      "Seafood BBQ",
-      "Blue Lagoon",
-      "Mangroves"
+      "Blue Lagoon snorkeling",
+      "Seafood BBQ on sandbank",
+      "Mangrove exploration",
+      "Island hopping"
     ],
-    badge: "Popular"
+    badge: "Most Popular"
   },
   {
     title: "Stone Town & Spice Tour",
-    price: "$30",
+    // price: "$30",
     duration: "Half Day",
-    rating: 4.7,
+    // rating: 4.7,
     image:
       "https://images.unsplash.com/photo-1667650708785-2179a8eb2b70?auto=format&fit=crop&w=1200&q=80",
     highlights: [
-      "UNESCO heritage",
+      "UNESCO Stone Town",
       "Local markets",
-      "Spice plantations",
-      "Cultural guide"
+      "Spice plantation visit",
+      "Professional local guide"
     ],
-    badge: "Special Offer"
+    badge: "Cultural Favorite"
   }
 ];
 
@@ -58,16 +58,52 @@ export default function FeaturedTours() {
       <Container>
         {/* HEADER */}
         <div className="text-center mb-5">
-          <Badge pill style={{ background: PRIMARY, padding: "10px 20px" }}>
-            Best Deals
+          <Badge pill style={{ background: PRIMARY, padding: "10px 22px" }}>
+            Featured Experiences
           </Badge>
-          <h2 style={{ fontWeight: 800, fontSize: "2.5rem" }}>
-            Featured Tours & Packages
+
+          <h2 style={{ fontWeight: 800, fontSize: "2.6rem" }}>
+            Best Tours & Experiences in Zanzibar
           </h2>
-          <p style={{ maxWidth: "650px", margin: "15px auto", color: "#666" }}>
-            Our most loved tours and special offers designed to give you the best Zanzibar experience.
+
+          <p
+            style={{
+              maxWidth: "720px",
+              margin: "15px auto",
+              color: "#666",
+              lineHeight: 1.7
+            }}
+          >
+            Carefully selected tours offering the perfect mix of adventure,
+            culture, nature, and relaxation — guided by local experts for an
+            unforgettable Zanzibar experience.
           </p>
         </div>
+
+        {/* TRUST FEATURES */}
+        <Row className="text-center mb-5 g-4">
+          <Col md={4}>
+            <ShieldCheck size={40} color={PRIMARY} />
+            <h6 className="mt-3 fw-bold">Trusted Local Guides</h6>
+            <p style={{ color: "#666" }}>
+              Experienced guides with deep local knowledge and friendly service.
+            </p>
+          </Col>
+          <Col md={4}>
+            <StarFill size={40} color={PRIMARY} />
+            <h6 className="mt-3 fw-bold">Top-Rated Tours</h6>
+            <p style={{ color: "#666" }}>
+              Highly rated experiences loved by travelers from around the world.
+            </p>
+          </Col>
+          <Col md={4}>
+            <PeopleFill size={40} color={PRIMARY} />
+            <h6 className="mt-3 fw-bold">Small Groups & Comfort</h6>
+            <p style={{ color: "#666" }}>
+              Personalized tours designed for comfort, safety, and enjoyment.
+            </p>
+          </Col>
+        </Row>
 
         {/* TOURS */}
         <Row className="g-4">
@@ -93,40 +129,10 @@ export default function FeaturedTours() {
                   />
 
                   {/* BADGE */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "15px",
-                      left: "15px",
-                      background: PRIMARY,
-                      color: "white",
-                      padding: "6px 14px",
-                      borderRadius: "50px",
-                      fontSize: "0.8rem",
-                      fontWeight: 600
-                    }}
-                  >
-                    {tour.badge}
-                  </div>
+                  
 
                   {/* RATING */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "15px",
-                      right: "15px",
-                      background: "white",
-                      padding: "6px 12px",
-                      borderRadius: "50px",
-                      fontWeight: 700,
-                      fontSize: "0.85rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px"
-                    }}
-                  >
-                    <StarFill color={PRIMARY} size={14} /> {tour.rating}
-                  </div>
+                  
                 </div>
 
                 {/* BODY */}
@@ -134,7 +140,10 @@ export default function FeaturedTours() {
                   <h5 style={{ fontWeight: 700 }}>{tour.title}</h5>
 
                   {/* META */}
-                  <div className="d-flex gap-3 mb-3" style={{ fontSize: "0.9rem", color: "#555" }}>
+                  <div
+                    className="d-flex gap-3 mb-3"
+                    style={{ fontSize: "0.9rem", color: "#555" }}
+                  >
                     <span className="d-flex align-items-center gap-1">
                       <Clock /> {tour.duration}
                     </span>
@@ -163,13 +172,28 @@ export default function FeaturedTours() {
                       gap: "8px"
                     }}
                   >
-                    View Details <ArrowRight />
+                    View Tour Details <ArrowRight />
                   </Button>
                 </Card.Body>
               </Card>
             </Col>
           ))}
         </Row>
+
+        {/* CTA */}
+        <div className="text-center mt-5">
+          <Button
+            style={{
+              background: PRIMARY,
+              border: "none",
+              borderRadius: "50px",
+              padding: "14px 36px",
+              fontWeight: 700
+            }}
+          >
+            View All Tours <ArrowRight />
+          </Button>
+        </div>
       </Container>
 
       <style jsx>{`

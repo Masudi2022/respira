@@ -1,47 +1,53 @@
 import React from "react";
-import { Container, Row, Col, Card, Badge } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, Button } from "react-bootstrap";
 import {
   Binoculars,
   Sun,
   PeopleFill,
   Compass,
-  CupHotFill
+  CupHotFill,
+  HeartFill,
+  ArrowRight
 } from "react-bootstrap-icons";
 
 const PRIMARY = "#2FB6A6";
 
 const experiences = [
   {
-    title: "Safari",
+    title: "Safari & Marine Life",
     icon: Binoculars,
     image:
-      "https://images.unsplash.com/photo-1543248939-4296e1fea89b?auto=format&fit=crop&w=1200&q=80",
+      "https://media.istockphoto.com/id/2198492232/photo/aerial-view-of-boats-anchored-near-pristine-white-sandy-beach-turquoise-waters-of-kizimkazi.webp?a=1&b=1&s=612x612&w=0&k=20&c=_Ozb1W7lRI__RYSAoIb3JLY720XHoS_1AOOrQxcHCw4=",
     description:
-      "Wildlife adventures, marine safaris, snorkeling, and nature exploration across Zanzibar."
+      "Marine safaris, dolphin tours, snorkeling, coral reefs, and unforgettable ocean adventures.",
+    highlight: "Snorkeling & dolphins"
   },
   {
-    title: "Beach",
+    title: "Beaches & Relaxation",
     icon: Sun,
     image:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     description:
-      "White sandy beaches, turquoise waters, sunbathing, swimming, and breathtaking sunsets."
+      "White sandy beaches, turquoise waters, swimming, sunbathing, and breathtaking sunsets.",
+    highlight: "Pure relaxation"
   },
   {
-    title: "Culture",
+    title: "Culture & History",
     icon: PeopleFill,
     image:
       "https://images.unsplash.com/photo-1667650708785-2179a8eb2b70?auto=format&fit=crop&w=1200&q=80",
     description:
-      "Discover Swahili traditions, historic Stone Town, spice farms, and local communities."
+      "Explore Swahili culture, UNESCO Stone Town, spice farms, and traditional villages.",
+    highlight: "Authentic Zanzibar"
   },
   {
-    title: "Adventure",
+    title: "Adventure & Exploration",
     icon: Compass,
     image:
-      "https://images.unsplash.com/photo-1609766418204-94aae83d8d9f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1688904851329-c41d0a57f536?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGFkdmVudHVyZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
     description:
-      "Quad biking, cave swimming, horseback riding, and thrilling outdoor activities."
+      "Quad biking, cave swimming, forest walks, horseback riding, and adrenaline activities.",
+    highlight: "Thrilling experiences"
   },
   {
     title: "Food & Local Life",
@@ -49,7 +55,17 @@ const experiences = [
     image:
       "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=80",
     description:
-      "Taste Zanzibar’s flavors through seafood, spices, street food, and village life."
+      "Seafood feasts, spice tasting, street food, cooking experiences, and village life.",
+    highlight: "Taste Zanzibar"
+  },
+  {
+    title: "Sunset and Cruises",
+    icon: HeartFill,
+    image:
+      "https://images.unsplash.com/photo-1737318824956-9a21f0f8fc7d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c3Vuc2V0JTIwY3J1aXNlcyUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3Dttps://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+    description:
+      "Sunset cruises, beach dinners, horseback sunsets, and honeymoon moments.",
+    highlight: "Perfect for couples"
   }
 ];
 
@@ -59,14 +75,25 @@ export default function Experiences() {
       <Container>
         {/* HEADER */}
         <div className="text-center mb-5">
-          <Badge pill style={{ background: PRIMARY, padding: "10px 20px" }}>
-            What You Can Experience
-          </Badge>
-          <h2 style={{ fontWeight: 800, fontSize: "2.5rem" }}>
+          <Badge pill style={{ background: PRIMARY, padding: "10px 22px" }}>
             Experiences & Activities
+          </Badge>
+
+          <h2 style={{ fontWeight: 800, fontSize: "2.6rem" }}>
+            How You Can Experience Zanzibar
           </h2>
-          <p style={{ maxWidth: "650px", margin: "15px auto", color: "#666" }}>
-            Choose how you want to experience Zanzibar — adventure, culture, nature, or relaxation.
+
+          <p
+            style={{
+              maxWidth: "720px",
+              margin: "15px auto",
+              color: "#666",
+              lineHeight: 1.7
+            }}
+          >
+            Whether you seek adventure, culture, relaxation, or romance,
+            Zanzibar offers unforgettable experiences tailored to every type of
+            traveler.
           </p>
         </div>
 
@@ -135,6 +162,9 @@ export default function Experiences() {
                       }}
                     >
                       <h5 style={{ fontWeight: 700 }}>{item.title}</h5>
+                      <small style={{ opacity: 0.9 }}>
+                        {item.highlight}
+                      </small>
                     </div>
                   </div>
 
@@ -149,6 +179,21 @@ export default function Experiences() {
             );
           })}
         </Row>
+
+        {/* CTA */}
+        <div className="text-center mt-5">
+          <Button
+            style={{
+              background: PRIMARY,
+              border: "none",
+              borderRadius: "50px",
+              padding: "14px 36px",
+              fontWeight: 700
+            }}
+          >
+            Explore All Experiences <ArrowRight />
+          </Button>
+        </div>
       </Container>
 
       <style jsx>{`
