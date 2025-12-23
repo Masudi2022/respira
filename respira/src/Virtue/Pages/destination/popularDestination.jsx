@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { GeoAltFill, StarFill, ArrowRight, Clock, Sun } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 
-const PRIMARY = "#008080";     // Deep teal
-const PRIMARY_LIGHT = "#00a8a8"; // Lighter teal accent
-const SECONDARY = "#f4c95d";    // Soft sandy gold
-const ACCENT = "#004d4d";       // Dark teal for text
-const BG_FADE = "#f5fbfb";      // Very light teal fade background
+const PRIMARY = "#008080";
+const PRIMARY_LIGHT = "#00a8a8";
+const SECONDARY = "#f4c95d";
+const ACCENT = "#004d4d";
+const BG_FADE = "#f5fbfb";
 
 const destinations = [
   {
@@ -75,15 +75,43 @@ const destinations = [
 
 export default function PopularDestinations() {
   const navigate = useNavigate();
+  const [showAll, setShowAll] = useState(false);
+  const [screenSize, setScreenSize] = useState("desktop");
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 768) setScreenSize("mobile");
+      else if (width < 1200) setScreenSize("tablet");
+      else setScreenSize("desktop");
+    };
+    
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleExploreClick = (destination) => {
     navigate(`/destination/${destination.id}`);
   };
 
+  const isMobile = screenSize === "mobile";
+  const isTablet = screenSize === "tablet";
+
+  // Determine how many destinations to show initially
+  const initialDestinationsCount = isMobile ? 2 : 3;
+  const visibleDestinations = showAll 
+    ? destinations 
+    : destinations.slice(0, initialDestinationsCount);
+
+  const handleViewAllDestinations = () => {
+    navigate("/destinations");
+  };
+
   return (
     <section
       style={{
-        padding: "140px 0 100px", // Extra top padding to clear fixed header
+        padding: "80px 0 60px",
         background: `linear-gradient(180deg, ${BG_FADE} 0%, #ffffff 100%)`,
         position: "relative",
         overflow: "hidden",
@@ -133,7 +161,7 @@ export default function PopularDestinations() {
           <h1
             style={{
               fontWeight: 900,
-              fontSize: "4rem",
+              fontSize: isMobile ? "2.5rem" : isTablet ? "3rem" : "3.5rem",
               margin: "30px 0 20px",
               background: `linear-gradient(135deg, ${ACCENT}, ${PRIMARY})`,
               WebkitBackgroundClip: "text",
@@ -147,7 +175,7 @@ export default function PopularDestinations() {
             style={{
               maxWidth: "800px",
               margin: "0 auto",
-              fontSize: "1.2rem",
+              fontSize: isMobile ? "1rem" : "1.2rem",
               color: "#555",
               lineHeight: 1.8,
             }}
@@ -157,24 +185,29 @@ export default function PopularDestinations() {
         </div>
 
         {/* Destinations Grid */}
-        <Row className="g-5">
-          {destinations.map((place) => (
-            <Col key={place.id} lg={4} md={6}>
+        <Row className="g-4">
+          {visibleDestinations.map((place) => (
+            <Col 
+              key={place.id} 
+              lg={showAll || !isMobile ? 4 : 6} 
+              md={showAll || !isMobile ? 6 : 12}
+            >
               <Card
                 style={{
                   border: "none",
-                  borderRadius: "24px",
+                  borderRadius: "20px",
                   overflow: "hidden",
                   height: "100%",
+                  minHeight: "520px",
                   background: "#ffffff",
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.08)",
-                  transition: "all 0.5s ease",
+                  boxShadow: "0 15px 30px rgba(0,0,0,0.08)",
+                  transition: "all 0.4s ease",
                   cursor: "pointer",
                 }}
                 onClick={() => handleExploreClick(place)}
                 className="destination-card"
               >
-                <div style={{ position: "relative", height: "280px", overflow: "hidden" }}>
+                <div style={{ position: "relative", height: "240px", overflow: "hidden" }}>
                   <Card.Img
                     src={place.image}
                     alt={place.title}
@@ -182,7 +215,7 @@ export default function PopularDestinations() {
                       height: "100%",
                       width: "100%",
                       objectFit: "cover",
-                      transition: "transform 0.8s ease",
+                      transition: "transform 0.6s ease",
                     }}
                   />
                   <div
@@ -196,31 +229,33 @@ export default function PopularDestinations() {
                     style={{
                       position: "absolute",
                       bottom: "20px",
-                      left: "25px",
+                      left: "20px",
                       color: "white",
                       zIndex: 2,
                     }}
                   >
-                    <h4 style={{ fontWeight: 800, fontSize: "1.6rem", margin: 0 }}>
+                    <h4 style={{ fontWeight: 800, fontSize: isMobile ? "1.3rem" : "1.5rem", margin: 0 }}>
                       {place.title}
                     </h4>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "6px" }}>
-                      <GeoAltFill color={SECONDARY} size={18} />
-                      <span style={{ fontWeight: 500 }}>{place.location}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>
+                      <GeoAltFill color={SECONDARY} size={16} />
+                      <span style={{ fontWeight: 500, fontSize: isMobile ? "0.9rem" : "1rem" }}>
+                        {place.location}
+                      </span>
                     </div>
                   </div>
                   {/* Highlight Badge */}
                   <div
                     style={{
                       position: "absolute",
-                      top: "20px",
-                      right: "20px",
+                      top: "15px",
+                      right: "15px",
                       background: `rgba(244,201,93,0.9)`,
                       color: ACCENT,
-                      padding: "8px 16px",
+                      padding: "6px 12px",
                       borderRadius: "50px",
                       fontWeight: 700,
-                      fontSize: "0.85rem",
+                      fontSize: isMobile ? "0.75rem" : "0.85rem",
                       backdropFilter: "blur(4px)",
                     }}
                   >
@@ -228,51 +263,64 @@ export default function PopularDestinations() {
                   </div>
                 </div>
 
-                <Card.Body style={{ padding: "30px" }}>
-                  <p style={{ color: "#555", lineHeight: 1.8, marginBottom: "25px" }}>
+                <Card.Body style={{ padding: "25px" }}>
+                  <p style={{ 
+                    color: "#555", 
+                    lineHeight: 1.7, 
+                    marginBottom: "20px",
+                    fontSize: isMobile ? "0.9rem" : "1rem"
+                  }}>
                     {place.description}
                   </p>
 
-                  <div style={{ display: "flex", gap: "25px", marginBottom: "25px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                      <Clock color={PRIMARY} size={18} />
-                      <span style={{ color: ACCENT, fontWeight: 600 }}>{place.duration}</span>
+                  <div style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <Clock color={PRIMARY} size={16} />
+                      <span style={{ color: ACCENT, fontWeight: 600, fontSize: "0.9rem" }}>
+                        {place.duration}
+                      </span>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                      <Sun color={SECONDARY} size={18} />
-                      <span style={{ color: ACCENT, fontWeight: 600 }}>Best: {place.bestTime}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <Sun color={SECONDARY} size={16} />
+                      <span style={{ color: ACCENT, fontWeight: 600, fontSize: "0.9rem" }}>
+                        Best: {place.bestTime}
+                      </span>
                     </div>
                   </div>
 
-                  <RouterLink to={`/destination/${place.id}`} style={{ textDecoration: "none", width: "100%" }}>
+                  <RouterLink 
+                    to={`/destination/${place.id}`} 
+                    style={{ textDecoration: "none", width: "100%" }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <Button
                       style={{
                         width: "100%",
                         background: `linear-gradient(135deg, ${PRIMARY}, ${PRIMARY_LIGHT})`,
                         border: "none",
                         borderRadius: "50px",
-                        padding: "14px 0",
+                        padding: isMobile ? "12px 0" : "14px 0",
                         fontWeight: 700,
-                        fontSize: "1.05rem",
+                        fontSize: isMobile ? "0.9rem" : "1rem",
                         color: "white",
-                        boxShadow: "0 8px 25px rgba(0,128,128,0.3)",
+                        boxShadow: "0 6px 20px rgba(0,128,128,0.25)",
                         transition: "all 0.3s ease",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        gap: "10px",
+                        gap: "8px",
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = "translateY(-3px)";
-                        e.currentTarget.style.boxShadow = "0 15px 35px rgba(0,128,128,0.4)";
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = "0 10px 25px rgba(0,128,128,0.35)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,128,128,0.3)";
+                        e.currentTarget.style.boxShadow = "0 6px 20px rgba(0,128,128,0.25)";
                       }}
                     >
-                      Explore This Destination
-                      <ArrowRight size={20} />
+                      Explore Destination
+                      <ArrowRight size={isMobile ? 16 : 18} />
                     </Button>
                   </RouterLink>
                 </Card.Body>
@@ -281,21 +329,87 @@ export default function PopularDestinations() {
           ))}
         </Row>
 
+        {/* Show More / Show Less Button */}
+        <div className="text-center mt-5">
+          <Button
+            onClick={() => setShowAll(!showAll)}
+            style={{
+              background: "transparent",
+              border: `2px solid ${PRIMARY}`,
+              color: PRIMARY,
+              borderRadius: "50px",
+              padding: "12px 40px",
+              fontWeight: 700,
+              fontSize: "1rem",
+              transition: "all 0.3s ease",
+              marginRight: "15px",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = PRIMARY;
+              e.currentTarget.style.color = "white";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = PRIMARY;
+            }}
+          >
+            {showAll ? "Show Less" : `Show ${destinations.length - initialDestinationsCount} More`}
+            <ArrowRight className="ms-2" />
+          </Button>
+
+          {/* View All Destinations Button */}
+          <Button
+            onClick={handleViewAllDestinations}
+            style={{
+              background: `linear-gradient(135deg, ${PRIMARY}, ${PRIMARY_LIGHT})`,
+              border: "none",
+              color: "white",
+              borderRadius: "50px",
+              padding: "12px 40px",
+              fontWeight: 700,
+              fontSize: "1rem",
+              transition: "all 0.3s ease",
+              boxShadow: "0 8px 25px rgba(0,128,128,0.3)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 12px 30px rgba(0,128,128,0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,128,128,0.3)";
+            }}
+          >
+            View All Destinations
+            <ArrowRight className="ms-2" />
+          </Button>
+        </div>
+
         {/* Bottom CTA */}
         <div className="text-center mt-5">
           <div
             style={{
               background: `linear-gradient(135deg, ${PRIMARY}, ${PRIMARY_LIGHT})`,
-              borderRadius: "30px",
-              padding: "60px 40px",
+              borderRadius: "25px",
+              padding: isMobile ? "40px 25px" : "50px 40px",
               color: "white",
-              boxShadow: "0 30px 60px rgba(0,128,128,0.3)",
+              boxShadow: "0 25px 50px rgba(0,128,128,0.25)",
+              marginTop: "40px",
             }}
           >
-            <h2 style={{ fontWeight: 800, fontSize: "2.8rem", marginBottom: "20px" }}>
+            <h2 style={{ 
+              fontWeight: 800, 
+              fontSize: isMobile ? "2rem" : "2.5rem", 
+              marginBottom: "20px" 
+            }}>
               Ready to Explore Zanzibar?
             </h2>
-            <p style={{ maxWidth: "700px", margin: "0 auto 40px", fontSize: "1.2rem", opacity: 0.9 }}>
+            <p style={{ 
+              maxWidth: "700px", 
+              margin: "0 auto 30px", 
+              fontSize: isMobile ? "1rem" : "1.1rem", 
+              opacity: 0.9 
+            }}>
               Let us craft your perfect island getaway with personalized itineraries and exclusive experiences.
             </p>
             <Button
@@ -304,9 +418,9 @@ export default function PopularDestinations() {
                 color: PRIMARY,
                 border: "none",
                 borderRadius: "50px",
-                padding: "16px 40px",
+                padding: isMobile ? "12px 30px" : "14px 40px",
                 fontWeight: 800,
-                fontSize: "1.1rem",
+                fontSize: isMobile ? "0.95rem" : "1.05rem",
               }}
             >
               Plan My Trip <ArrowRight className="ms-2" />
@@ -318,18 +432,18 @@ export default function PopularDestinations() {
       {/* Hover Animations */}
       <style jsx>{`
         .destination-card:hover {
-          transform: translateY(-12px);
-          box-shadow: 0 35px 70px rgba(0,0,0,0.15);
+          transform: translateY(-8px);
+          box-shadow: 0 25px 50px rgba(0,0,0,0.12);
         }
         .destination-card:hover img {
-          transform: scale(1.12);
-        }
-        @media (max-width: 992px) {
-          h1 { font-size: 3.2rem !important; }
+          transform: scale(1.08);
         }
         @media (max-width: 768px) {
+          .destination-card {
+            min-height: 480px !important;
+          }
           .destination-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-4px);
           }
         }
       `}</style>
