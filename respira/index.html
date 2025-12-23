@@ -1,13 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- ✅ THIS IS THE FIX -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Respira Zanzibar</title>
+</head>
+
 <body>
 
- 
-<div class="gtranslate_wrapper"></div>
-<div class="gtranslate_wrapper">Language</div>
-<script>window.gtranslateSettings = {"default_language":"en","native_language_names":true,"detect_browser_language":true,"languages":["en","fr","it","es","de","pt","ko","hi","zh-CN","ja","sw"],"globe_color":"#66aaff","wrapper_selector":".gtranslate_wrapper","horizontal_position":"right","vertical_position":"top","alt_flags":{"en":"usa"},"globe_size":40}</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
+  <div class="gtranslate_wrapper"></div>
+  <div class="gtranslate_wrapper">Language</div>
+
+  <script>
+    window.gtranslateSettings = {
+      "default_language":"en",
+      "native_language_names":true,
+      "detect_browser_language":true,
+      "languages":["en","fr","it","es","de","pt","ko","hi","zh-CN","ja","sw"],
+      "globe_color":"#66aaff",
+      "wrapper_selector":".gtranslate_wrapper",
+      "horizontal_position":"right",
+      "vertical_position":"top",
+      "alt_flags":{"en":"usa"},
+      "globe_size":40
+    }
+  </script>
+
+  <script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
+
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 
 </body>
-
-
+</html>
