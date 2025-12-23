@@ -212,7 +212,7 @@ export default function Contact() {
                       fontSize: "1.5rem",
                       color: TEAL_DARK 
                     }}>
-                      +255 777 123 456
+                      +255 777 186 221
                     </div>
                   </div>
                 </div>
@@ -250,7 +250,7 @@ export default function Contact() {
                       fontSize: "1.3rem",
                       color: TEAL_DARK 
                     }}>
-                      hello@respira.co.tz
+                      Zanzibarespira@respira.co.tz
                     </div>
                   </div>
                 </div>
@@ -941,7 +941,7 @@ export default function Contact() {
                     textAlign: "center",
                     maxWidth: "200px"
                   }}>
-                    (Google Maps integration available)
+                    View our location and get directions via Google Maps
                   </p>
                 </div>
               </div>

@@ -3,9 +3,7 @@ import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// ===== LUXURY TEAL THEME =====
 const TEAL_DARK = "#002d2d";
-const TEAL_DEEP = "#005f5f";
 const TEAL_LIGHT = "#00e6e6";
 const GOLD_SOFT = "#d4b453";
 const CORAL_WHITE = "#ffffff";
@@ -33,27 +31,23 @@ export function Header() {
       expand="lg"
       fixed="top"
       expanded={expanded}
-      onToggle={setExpanded}
+      onToggle={(val) => setExpanded(val)}
       style={{
         background: scrolled
           ? "rgba(0,45,45,0.92)"
           : "rgba(0,95,95,0.85)",
         backdropFilter: "blur(14px)",
-        padding: scrolled ? "0.6rem 0" : "1.3rem 0",
-        transition: "all 0.4s ease",
-        boxShadow: scrolled
-          ? "0 10px 30px rgba(0,0,0,0.45)"
-          : "0 4px 16px rgba(0,0,0,0.2)",
-        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        padding: scrolled ? "0.6rem 0" : "1.2rem 0",
+        transition: "all 0.3s ease",
       }}
     >
-      <Container fluid className="position-relative">
+      <Container fluid>
 
-        {/* ================= MOBILE ================= */}
-        <div className="d-flex d-lg-none align-items-center justify-content-between">
+        {/* ===== MOBILE HEADER ===== */}
+        <div className="d-flex d-lg-none align-items-center w-100 position-relative">
           <Navbar.Toggle
             aria-controls="respira-nav"
-            style={{ border: "none", color: CORAL_WHITE }}
+            style={{ border: "none" }}
           />
 
           <Navbar.Brand
@@ -65,7 +59,7 @@ export function Header() {
               left: "50%",
               transform: "translateX(-50%)",
               fontWeight: 900,
-              fontSize: "2.2rem",
+              fontSize: "2rem",
               color: CORAL_WHITE,
               letterSpacing: "3px",
             }}
@@ -73,7 +67,7 @@ export function Header() {
             <span style={{ color: TEAL_LIGHT }}>RES</span>PIRA
             <div
               style={{
-                fontSize: "0.75rem",
+                fontSize: "0.7rem",
                 marginTop: "-6px",
                 fontWeight: 700,
                 color: GOLD_SOFT,
@@ -84,103 +78,98 @@ export function Header() {
               ZANZIBAR
             </div>
           </Navbar.Brand>
-
-          <div style={{ width: "40px" }} />
         </div>
 
-        {/* ================= DESKTOP ================= */}
-        <div className="d-none d-lg-flex align-items-center">
-
-          {/* BRAND (LEFT) */}
-          <Navbar.Brand
-            as={NavLink}
-            to="/"
-            onClick={() => setExpanded(false)}
+        {/* ===== DESKTOP BRAND ===== */}
+        <Navbar.Brand
+          as={NavLink}
+          to="/"
+          onClick={() => setExpanded(false)}
+          className="d-none d-lg-block"
+          style={{
+            marginLeft: "3rem",
+            fontWeight: 900,
+            fontSize: scrolled ? "2.1rem" : "2.6rem",
+            color: CORAL_WHITE,
+            letterSpacing: "3px",
+          }}
+        >
+          <span style={{ color: TEAL_LIGHT }}>RES</span>PIRA
+          <div
             style={{
-              marginLeft: "3rem",
-              fontWeight: 900,
-              fontSize: scrolled ? "2.1rem" : "2.6rem",
-              color: CORAL_WHITE,
-              letterSpacing: "3px",
-              zIndex: 2,
+              fontSize: "0.85rem",
+              marginTop: "-6px",
+              fontWeight: 700,
+              color: GOLD_SOFT,
+              letterSpacing: "4px",
             }}
           >
-            <span style={{ color: TEAL_LIGHT }}>RES</span>PIRA
-            <div
+            ZANZIBAR
+          </div>
+        </Navbar.Brand>
+
+        {/* ===== COLLAPSE ===== */}
+        <Navbar.Collapse id="respira-nav">
+
+          {/* MOBILE: LEFT MENU | DESKTOP: CENTER */}
+          <Nav
+            className="
+              ms-lg-auto
+              me-lg-auto
+              mt-4 mt-lg-0
+              flex-column flex-lg-row
+              align-items-start align-items-lg-center
+            "
+            style={{ gap: "1.2rem" }}
+          >
+            {navLinks.map((link) => (
+              <Nav.Link
+                key={link.to}
+                as={NavLink}
+                to={link.to}
+                onClick={() => setExpanded(false)}
+                style={({ isActive }) => ({
+                  color: isActive ? TEAL_LIGHT : CORAL_WHITE,
+                  fontWeight: 600,
+                  fontSize: "1.1rem",
+                })}
+              >
+                {link.label}
+              </Nav.Link>
+            ))}
+
+            <Nav.Link
+              as={NavLink}
+              to="/contact"
+              onClick={() => setExpanded(false)}
               style={{
-                fontSize: "0.85rem",
-                marginTop: "-6px",
-                fontWeight: 700,
-                color: GOLD_SOFT,
-                letterSpacing: "4px",
+                color: CORAL_WHITE,
+                fontWeight: 600,
+                fontSize: "1.1rem",
               }}
             >
-              ZANZIBAR
-            </div>
-          </Navbar.Brand>
+              Contact
+            </Nav.Link>
 
-          {/* ===== CENTERED NAV ===== */}
-          <Navbar.Collapse
-            id="respira-nav"
-            className="position-absolute start-50 translate-middle-x"
-          >
-            <Nav className="align-items-center" style={{ gap: "1.8rem" }}>
-              {navLinks.map((link) => (
-                <Nav.Link
-                  key={link.to}
-                  as={NavLink}
-                  to={link.to}
-                  onClick={() => setExpanded(false)}
-                  style={({ isActive }) => ({
-                    color: isActive ? TEAL_LIGHT : CORAL_WHITE,
-                    fontWeight: 600,
-                    fontSize: "1.05rem",
-                    position: "relative",
-                    textShadow: isActive
-                      ? "0 0 12px rgba(0,230,230,0.8)"
-                      : "none",
-                  })}
-                >
-                  {link.label}
-                </Nav.Link>
-              ))}
-
-              {/* CONTACT */}
-              <Nav.Link
-                as={NavLink}
-                to="/contact"
-                onClick={() => setExpanded(false)}
-                style={{
-                  color: CORAL_WHITE,
-                  fontWeight: 600,
-                  fontSize: "1.05rem",
-                }}
-              >
-                Contact
-              </Nav.Link>
-
-              {/* BOOK NOW — AFTER CONTACT */}
-              <Button
-                as={NavLink}
-                to="/contact"
-                onClick={() => setExpanded(false)}
-                style={{
-                  background: GOLD_SOFT,
-                  border: "none",
-                  borderRadius: "50px",
-                  padding: "0.6rem 1.8rem",
-                  fontWeight: 800,
-                  fontSize: "0.95rem",
-                  color: TEAL_DARK,
-                  boxShadow: "0 6px 18px rgba(212,180,83,0.6)",
-                  marginLeft: "0.4rem",
-                }}
-              >
-                Book Now
-              </Button>
-            </Nav>
-          </Navbar.Collapse>
-        </div>
+            <Button
+              as={NavLink}
+              to="/contact"
+              onClick={() => setExpanded(false)}
+              className="mt-2 mt-lg-0"
+              style={{
+                background: GOLD_SOFT,
+                border: "none",
+                borderRadius: "50px",
+                padding: "0.6rem 1.6rem",
+                fontWeight: 800,
+                fontSize: "0.95rem",
+                color: TEAL_DARK,
+              }}
+            >
+              Book Now
+            </Button>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );
