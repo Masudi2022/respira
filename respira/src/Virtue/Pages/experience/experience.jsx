@@ -128,6 +128,8 @@ export default function Experiences() {
   const [dragStart, setDragStart] = useState(0);
   const [dragCurrent, setDragCurrent] = useState(0);
   const [screenSize, setScreenSize] = useState("desktop");
+  const [arrowHover, setArrowHover] = useState({ prev: false, next: false });
+  const [ctaHover, setCtaHover] = useState(false);
   const slideRef = useRef(null);
 
   const minSwipeDistance = 50;
@@ -243,7 +245,7 @@ export default function Experiences() {
         <div className="text-center mb-4">
           <Badge pill style={{ 
             background: `rgba(47, 182, 166, 0.15)`,
-            color: PRIMARY_DARK,
+            color: "#ffffff",
             padding: "10px 24px",
             fontSize: "0.9rem",
             fontWeight: 700,
@@ -444,7 +446,7 @@ export default function Experiences() {
                 gap: "10px",
                 alignItems: "center"
               }}>
-                <Button
+                <button
                   onClick={() => setIsAutoPlaying(!isAutoPlaying)}
                   style={{
                     background: "rgba(255,255,255,0.9)",
@@ -456,13 +458,15 @@ export default function Experiences() {
                     alignItems: "center",
                     justifyContent: "center",
                     color: PRIMARY_DARK,
-                    boxShadow: "0 4px 15px rgba(0,0,0,0.1)"
+                    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease"
                   }}
                 >
                   {isAutoPlaying ? <PauseCircle size={20} /> : <PlayCircle size={20} />}
-                </Button>
+                </button>
                 
-                <Button
+                <button
                   onClick={() => setIsModalOpen(true)}
                   style={{
                     background: "rgba(255,255,255,0.9)",
@@ -475,12 +479,14 @@ export default function Experiences() {
                     display: "flex",
                     alignItems: "center",
                     gap: "8px",
-                    boxShadow: "0 4px 15px rgba(0,0,0,0.1)"
+                    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease"
                   }}
                 >
                   <span>View All</span>
                   <ArrowRight size={14} />
-                </Button>
+                </button>
               </div>
             </div>
           </div>
@@ -555,35 +561,31 @@ export default function Experiences() {
         {/* Navigation Controls Below Carousel */}
         <div className="d-flex justify-content-center align-items-center gap-4 mt-4 mb-4">
           {/* Previous Arrow */}
-          <Button
+          <button
             onClick={prevSlide}
-            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseEnter={() => {
+              setIsAutoPlaying(false);
+              setArrowHover(prev => ({ ...prev, prev: true }));
+            }}
+            onMouseLeave={() => setArrowHover(prev => ({ ...prev, prev: false }))}
             style={{
               width: "45px",
               height: "45px",
               borderRadius: "50%",
-              background: "white",
+              background: arrowHover.prev ? PRIMARY : "white",
               border: `2px solid ${PRIMARY}`,
-              color: PRIMARY,
+              color: arrowHover.prev ? "white" : PRIMARY,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
-              transition: "all 0.3s ease"
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = PRIMARY;
-              e.currentTarget.style.color = "white";
-              e.currentTarget.style.transform = "scale(1.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "white";
-              e.currentTarget.style.color = PRIMARY;
-              e.currentTarget.style.transform = "scale(1)";
+              transition: "all 0.3s ease",
+              transform: arrowHover.prev ? "scale(1.1)" : "scale(1)",
+              cursor: "pointer"
             }}
           >
             <ChevronLeft size={22} />
-          </Button>
+          </button>
           
           {/* Indicators */}
           <div className="d-flex justify-content-center gap-2">
@@ -607,35 +609,31 @@ export default function Experiences() {
           </div>
           
           {/* Next Arrow */}
-          <Button
+          <button
             onClick={nextSlide}
-            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseEnter={() => {
+              setIsAutoPlaying(false);
+              setArrowHover(prev => ({ ...prev, next: true }));
+            }}
+            onMouseLeave={() => setArrowHover(prev => ({ ...prev, next: false }))}
             style={{
               width: "45px",
               height: "45px",
               borderRadius: "50%",
-              background: "white",
+              background: arrowHover.next ? PRIMARY : "white",
               border: `2px solid ${PRIMARY}`,
-              color: PRIMARY,
+              color: arrowHover.next ? "white" : PRIMARY,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
-              transition: "all 0.3s ease"
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = PRIMARY;
-              e.currentTarget.style.color = "white";
-              e.currentTarget.style.transform = "scale(1.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "white";
-              e.currentTarget.style.color = PRIMARY;
-              e.currentTarget.style.transform = "scale(1)";
+              transition: "all 0.3s ease",
+              transform: arrowHover.next ? "scale(1.1)" : "scale(1)",
+              cursor: "pointer"
             }}
           >
             <ChevronRight size={22} />
-          </Button>
+          </button>
         </div>
 
         {/* Swipe Hint */}
@@ -652,7 +650,9 @@ export default function Experiences() {
 
         {/* Call to Action */}
         <div className="text-center">
-          <Button
+          <button
+            onMouseEnter={() => setCtaHover(true)}
+            onMouseLeave={() => setCtaHover(false)}
             style={{
               background: `linear-gradient(135deg, ${PRIMARY}, ${PRIMARY_LIGHT})`,
               border: "none",
@@ -661,21 +661,20 @@ export default function Experiences() {
               fontWeight: 700,
               fontSize: "1.1rem",
               color: "white",
-              boxShadow: "0 15px 35px rgba(47, 182, 166, 0.3)",
-              transition: "all 0.3s ease"
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-3px)";
-              e.currentTarget.style.boxShadow = "0 20px 40px rgba(47, 182, 166, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 15px 35px rgba(47, 182, 166, 0.3)";
+              boxShadow: ctaHover 
+                ? "0 20px 40px rgba(47, 182, 166, 0.4)" 
+                : "0 15px 35px rgba(47, 182, 166, 0.3)",
+              transition: "all 0.3s ease",
+              transform: ctaHover ? "translateY(-3px)" : "translateY(0)",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             Book Your Experience Now
             <ArrowRight className="ms-2" size={20} />
-          </Button>
+          </button>
         </div>
       </Container>
 
@@ -705,7 +704,7 @@ export default function Experiences() {
             animation: "fadeIn 0.3s ease"
           }}>
             {/* Close Button */}
-            <Button
+            <button
               onClick={() => setIsModalOpen(false)}
               style={{
                 position: "absolute",
@@ -721,11 +720,12 @@ export default function Experiences() {
                 alignItems: "center",
                 justifyContent: "center",
                 color: "white",
-                backdropFilter: "blur(10px)"
+                backdropFilter: "blur(10px)",
+                cursor: "pointer"
               }}
             >
               <XCircle size={24} />
-            </Button>
+            </button>
 
             {/* Modal Content */}
             <div style={{
@@ -792,7 +792,7 @@ export default function Experiences() {
                   paddingTop: "20px",
                   borderTop: `2px solid rgba(47, 182, 166, 0.1)`
                 }}>
-                  <Button
+                  <button
                     onClick={prevSlide}
                     style={{
                       background: "transparent",
@@ -803,12 +803,14 @@ export default function Experiences() {
                       fontWeight: 600,
                       display: "flex",
                       alignItems: "center",
-                      gap: "8px"
+                      gap: "8px",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease"
                     }}
                   >
                     <ChevronLeft size={18} />
                     Previous
-                  </Button>
+                  </button>
 
                   <div style={{
                     display: "flex",
@@ -830,7 +832,7 @@ export default function Experiences() {
                     ))}
                   </div>
 
-                  <Button
+                  <button
                     onClick={nextSlide}
                     style={{
                       background: PRIMARY,
@@ -841,12 +843,14 @@ export default function Experiences() {
                       fontWeight: 600,
                       display: "flex",
                       alignItems: "center",
-                      gap: "8px"
+                      gap: "8px",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease"
                     }}
                   >
                     Next
                     <ChevronRight size={18} />
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>

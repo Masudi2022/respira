@@ -10,14 +10,11 @@ const adventures = [
     id: "scuba-diving",
     title: "Scuba Diving Safari",
     location: "Mnemba Atoll",
-    rating: 4.9,
-    reviewCount: 842,
     image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&h=600&q=80",
     description: "Explore vibrant coral reefs and swim with tropical fish.",
     category: "Water",
     duration: "Full Day",
     groupSize: "4-8 divers",
-    price: "$125",
     highlight: "PADI certified instructors",
     features: ["Two tank dive", "Full equipment", "Marine park fees", "Lunch included"]
   },
@@ -27,7 +24,7 @@ const adventures = [
     location: "Paje Beach",
     rating: 4.8,
     reviewCount: 567,
-    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=600&q=80",
+    image: "https://images.unsplash.com/photo-1688807274851-87f0f8a5d39a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2l0ZSUyMHN1cmZpbmclMjBpbiUyMHphbnppYmFyfGVufDB8fDB8fHww",
     description: "Learn to kite surf on Zanzibar's famous windy beaches.",
     category: "Water",
     duration: "3-5 Hours",
@@ -42,7 +39,7 @@ const adventures = [
     location: "Jozani Forest",
     rating: 4.7,
     reviewCount: 723,
-    image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&h=600&q=80",
+    image: "https://images.unsplash.com/photo-1694960679744-772c982a568c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8am96YW5pJTIwZm9yZXN0JTIwaW4lMjB6YW56aWJhcnxlbnwwfHwwfHx8MA%3D%3D",
     description: "Walk among rare red colobus monkeys in the national park.",
     category: "Nature",
     duration: "Half Day",
@@ -55,14 +52,12 @@ const adventures = [
     id: "sunset-sailing",
     title: "Sunset Dhow Cruise",
     location: "Stone Town",
-    rating: 4.9,
     reviewCount: 932,
-    image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&h=600&q=80",
+    image: "https://images.unsplash.com/photo-1683716642140-60cd999c2caa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHN1bnNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
     description: "Sail on a traditional wooden dhow at sunset.",
     category: "Water",
     duration: "2-3 Hours",
     groupSize: "Private or Shared",
-    price: "$65",
     highlight: "Romantic experience",
     features: ["Traditional dhow", "Snacks & drinks", "Swimming stop", "Sunset timing"]
   }
@@ -153,7 +148,7 @@ export default function Adventure() {
                 boxShadow: "0 20px 40px rgba(0,0,0,0.1)"
               }}>
                 <img
-                  src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80"
+                  src="https://media.istockphoto.com/id/2196263713/photo/aerial-sunset-view-revealing-kitesurfers-riding-turquoise-waters-near-white-sandy-paje-beach.webp?a=1&b=1&s=612x612&w=0&k=20&c=FJIyOKQ6aHtZDOxXuuKVm7VzxZrKqOSe08QASs804GQ="
                   alt="Adventure"
                   style={{
                     width: "100%",
@@ -349,20 +344,8 @@ export default function Adventure() {
                       alignItems: "center",
                       marginBottom: "15px"
                     }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                        <StarFill color="#F59E0B" />
-                        <span style={{ fontWeight: 600 }}>{adventure.rating}</span>
-                        <span style={{ color: "#94A3B8", fontSize: "0.85rem" }}>
-                          ({adventure.reviewCount})
-                        </span>
-                      </div>
-                      <div style={{
-                        fontSize: "1.3rem",
-                        fontWeight: 700,
-                        color: PRIMARY
-                      }}>
-                        {adventure.price}
-                      </div>
+                      
+                      
                     </div>
 
                     <div style={{

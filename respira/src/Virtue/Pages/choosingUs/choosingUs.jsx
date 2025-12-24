@@ -46,13 +46,7 @@ const benefits = [
     features: ["Best Prices", "No Compromise", "Quality Guaranteed"],
     stat: "40% Less"
   },
-  {
-    icon: Award,
-    title: "Award Winning",
-    text: "Recognized as best tour operator in Zanzibar for 3 consecutive years.",
-    features: ["3x Award Winner", "Top Rated", "Expert Team"],
-    stat: "🏆"
-  },
+ 
   {
     icon: Star,
     title: "Premium Experience",
@@ -201,7 +195,7 @@ export default function WhyChooseUs() {
         <div className="text-center mb-5">
           <Badge pill style={{ 
             background: `rgba(47, 182, 166, 0.15)`,
-            color: PRIMARY_DARK,
+            color: '#ffff',
             padding: "10px 25px",
             fontSize: "0.9rem",
             fontWeight: 700,

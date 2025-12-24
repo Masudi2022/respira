@@ -17,12 +17,7 @@ export default function Testimonials() {
           textAlign: "center"
         }}
       >
-        <Container>
-          <h1 style={{ fontWeight: 800, fontSize: "3rem" }}>What Travelers Say</h1>
-          <p style={{ maxWidth: 650, margin: "15px auto", fontSize: "1.2rem" }}>
-            Real experiences from real people — trusted by thousands of happy explorers.
-          </p>
-        </Container>
+        
       </section>
 
       {/* TESTIMONIALS */}

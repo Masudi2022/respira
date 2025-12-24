@@ -66,7 +66,7 @@ export default function Contact() {
 
   const handleWhatsAppClick = () => {
     const message = `Hello! I'm interested in ${contactTopics.find(t => t.id === activeTopic)?.label}.`;
-    const phone = "+255777123456";
+    const phone = "+255777186221";
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -585,7 +585,7 @@ export default function Contact() {
                     </Col>
                     
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                      {/* <Form.Group className="mb-3">
                         <Form.Label style={{ 
                           fontWeight: 600, 
                           color: "#2C3E50",
@@ -615,7 +615,7 @@ export default function Contact() {
                           <option>Luxury ($5000+)</option>
                           <option>Custom Quote</option>
                         </Form.Select>
-                      </Form.Group>
+                      </Form.Group> */}
                     </Col>
                     
                     <Col md={12}>
@@ -755,7 +755,7 @@ export default function Contact() {
                           lineHeight: 1.6,
                           fontSize: "0.95rem"
                         }}>
-                          Kenyatta Road, Stone Town<br />
+                          Stone Town<br />
                           Zanzibar City, Tanzania
                         </p>
                       </div>
@@ -858,7 +858,7 @@ export default function Contact() {
                         color: TEAL_DARK,
                         fontSize: "1rem"
                       }}>
-                        +255 777 123 456
+                        +255 777 186 221
                       </div>
                     </Card>
                   </Col>
@@ -900,7 +900,8 @@ export default function Contact() {
                         color: TEAL_DARK,
                         fontSize: "0.9rem"
                       }}>
-                        hello@respira.co.tz
+                        Comming Soon
+                        {/* hello@respira.co.tz */}
                       </div>
                     </Card>
                   </Col>
@@ -969,7 +970,7 @@ export default function Contact() {
                   marginBottom: "15px"
                 }}>
                   <button
-                    onClick={() => window.open('#', '_blank')}
+                    onClick={() => window.open('https://instagram.com/respirazanzibartour', '_blank')}
                     style={{
                       background: "white",
                       border: `1px solid ${TEAL}30`,
@@ -990,49 +991,7 @@ export default function Contact() {
                     <FaInstagram />
                   </button>
                   
-                  <button
-                    onClick={() => window.open('#', '_blank')}
-                    style={{
-                      background: "white",
-                      border: `1px solid ${TEAL}30`,
-                      borderRadius: "50%",
-                      width: "45px",
-                      height: "45px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#1877F2",
-                      cursor: "pointer",
-                      transition: "all 0.3s ease",
-                      fontSize: "1.1rem"
-                    }}
-                    className="hover-lift"
-                    title="Facebook"
-                  >
-                    <FaFacebook />
-                  </button>
-                  
-                  <button
-                    onClick={() => window.open('#', '_blank')}
-                    style={{
-                      background: "white",
-                      border: `1px solid ${TEAL}30`,
-                      borderRadius: "50%",
-                      width: "45px",
-                      height: "45px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#1DA1F2",
-                      cursor: "pointer",
-                      transition: "all 0.3s ease",
-                      fontSize: "1.1rem"
-                    }}
-                    className="hover-lift"
-                    title="Twitter"
-                  >
-                    <FaTwitter />
-                  </button>
+                 
                   
                   <button
                     onClick={handleWhatsAppClick}

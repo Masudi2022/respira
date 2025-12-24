@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { href, NavLink } from "react-router-dom";
 import {
   FaInstagram,
   FaFacebookF,
@@ -8,6 +8,7 @@ import {
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
+  FaTiktok
 } from "react-icons/fa";
 
 /* ===== LUXURY DARK GREEN PALETTE ===== */
@@ -158,10 +159,8 @@ export function RespiraFooter() {
 
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               {[
-                { icon: <FaInstagram />, bg: "#E4405F", link: "https://instagram.com" },
-                { icon: <FaFacebookF />, bg: "#1877F2", link: "https://facebook.com" },
-                { icon: "X", bg: "#000000", link: "https://x.com" },
-                { icon: <FaWhatsapp />, bg: "#25D366", link: "https://wa.me/255777186221" },
+                { icon: <FaInstagram />, bg: "#E4405F", href: "https://instagram.com/respirazanzibartour", label: "Instagram" },
+                 { icon: <FaTiktok size={20} />,  color: "#000000", href: "https://www.tiktok.com/@respirazanzibartour", label: "TikTok" }
               ].map((s, i) => (
                 <a
                   key={i}
