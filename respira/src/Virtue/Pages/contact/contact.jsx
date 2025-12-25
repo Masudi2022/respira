@@ -147,27 +147,7 @@ export default function Contact() {
                   Chat on WhatsApp
                 </button>
                 
-                <button
-                  onClick={() => document.getElementById("contact-form").scrollIntoView({ behavior: "smooth" })}
-                  style={{
-                    background: "transparent",
-                    border: `2px solid ${TEAL}`,
-                    borderRadius: "50px",
-                    padding: "14px 35px",
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    color: TEAL,
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px"
-                  }}
-                  className="hover-lift"
-                >
-                  <FaPaperPlane />
-                  Send Message
-                </button>
+                
               </div>
             </Col>
 
@@ -212,7 +192,7 @@ export default function Contact() {
                       fontSize: "1.5rem",
                       color: TEAL_DARK 
                     }}>
-                      +255 777 186 221
+                      +255 621 670 930
                     </div>
                   </div>
                 </div>
@@ -250,7 +230,7 @@ export default function Contact() {
                       fontSize: "1.3rem",
                       color: TEAL_DARK 
                     }}>
-                      Zanzibarespira@respira.co.tz
+                      respira.zanzibar.tour.safari@gmail.com
                     </div>
                   </div>
                 </div>
@@ -858,7 +838,7 @@ export default function Contact() {
                         color: TEAL_DARK,
                         fontSize: "1rem"
                       }}>
-                        +255 777 186 221
+                        +255 621 670 930
                       </div>
                     </Card>
                   </Col>
@@ -900,7 +880,7 @@ export default function Contact() {
                         color: TEAL_DARK,
                         fontSize: "0.9rem"
                       }}>
-                        Comming Soon
+                        respira.zanzibar.tour.safari@gmail.com
                         {/* hello@respira.co.tz */}
                       </div>
                     </Card>
@@ -909,7 +889,7 @@ export default function Contact() {
               </div>
               
               {/* Map */}
-              <div style={{
+              {/* <div style={{
                 height: "250px",
                 borderRadius: "20px",
                 overflow: "hidden",
@@ -946,7 +926,7 @@ export default function Contact() {
                   </p>
                 </div>
               </div>
-              
+               */}
               {/* Social Media */}
               <Card style={{
                 border: "none",

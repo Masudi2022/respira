@@ -23,7 +23,7 @@ export default function ChatWithUs() {
     {
       icon: <EnvelopeFill size={20} />,
       color: "#EA4335",
-      href: "mailto:info@respirazanzibar.com",
+      href: "respira.zanzibar.tour.safari@gmail.com",
       label: "Email"
     },
     {

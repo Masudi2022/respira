@@ -139,7 +139,7 @@ export function RespiraFooter() {
 
               <div className="d-flex gap-3">
                 <FaEnvelope color={GREEN_ACCENT} size={18} />
-                <span>RespiraZanibar@respirazanzibar.com</span>
+                <span>respira.onrender.com</span>
               </div>
             </div>
           </Col>
@@ -209,7 +209,7 @@ export function RespiraFooter() {
         <Row>
           <Col className="text-center">
             <p style={{ fontSize: "0.9rem", color: TEXT_MUTED }}>
-              © {new Date().getFullYear()} Respira Zanzibar • All rights reserved.
+              © {new Date().getFullYear()} Respira Zanzibar Safari & Tours • All rights reserved.
             </p>
           </Col>
         </Row>
