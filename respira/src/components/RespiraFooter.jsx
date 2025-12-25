@@ -56,7 +56,7 @@ export function RespiraFooter() {
             >
               <span style={{ color: GREEN_ACCENT }}>RES</span>PIRA
             </h3>
-            <h4 style={{ fontWeight: 700, marginBottom: "20px", color: GOLD_SOFT }}>Zanzibar</h4>
+            <h4 style={{ fontWeight: 700, marginBottom: "20px", color: GOLD_SOFT }}>Zanzibar Safari & Tours</h4>
             <p
               style={{
                 maxWidth: "330px",
@@ -134,12 +134,12 @@ export function RespiraFooter() {
 
               <div className="d-flex gap-3 mb-3">
                 <FaPhone color={GREEN_ACCENT} size={18} />
-                <span>+255 718 622 621</span>
+                <span>+255 621 670 930</span>
               </div>
 
               <div className="d-flex gap-3">
                 <FaEnvelope color={GREEN_ACCENT} size={18} />
-                <span>respira.onrender.com</span>
+                <span>respira.zanzibar.tour.safari@gmail.com</span>
               </div>
             </div>
           </Col>
