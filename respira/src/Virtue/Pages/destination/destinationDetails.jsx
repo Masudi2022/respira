@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Badge, Card, Modal, Carousel } from "react-bootstrap";
+import { Container, Row, Col, Button, Badge, Card, Modal, Carousel, Form, Spinner, Alert } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   GeoAltFill,
   StarFill,
@@ -24,7 +26,17 @@ import {
   Whatsapp,
   Facebook,
   Twitter,
-  Instagram
+  Instagram,
+  CheckCircleFill,
+  EnvelopeFill,
+  TelephoneFill,
+  PeopleFill,
+  CalendarDateFill,
+  GeoAlt,
+  Check2Circle,
+  XCircle,
+  InfoCircle,
+  Send
 } from "react-bootstrap-icons";
 
 // Color Palette
@@ -149,249 +161,288 @@ Swim with dolphins in their natural habitat, explore colorful coral reefs teemin
     groupSize: "4-15 people",
     languages: ["English", "Swahili", "Italian", "Spanish"]
   },
-
   {
-  id: "Stone-Town",
-  title: "Stone Town",
-  location: "Zanzibar City",
-  rating: 4.7,
-  reviewCount: 2147,
-  image: "https://images.unsplash.com/photo-1531168556467-80a3b279834b?auto=format&fit=crop&w=1600&h=900&q=80",
-  gallery: [
-    "https://media.istockphoto.com/id/1368609467/photo/old-streets-of-stone-town-on-zanzibar-island-tanzania.jpg?s=612x612&w=0&k=20&c=sByMj6Sy3ho5PLmAl7ogs-Fxu4YS2pt_KsVK1A96B9s=",
-    "https://media.istockphoto.com/id/1272435826/photo/historical-cannon-guns-the-war-monument-in-stone-town-zanzibar.jpg?s=612x612&w=0&k=20&c=obsZh_puriGHkIDYcngV7mf1dV2AK2J5n2SWrqOWGOs=",
-    "https://media.istockphoto.com/id/1137594795/photo/street-scene-of-stone-town-old-part-of-zanzibar-tanzania-africa.jpg?s=612x612&w=0&k=20&c=Dom7bHFfmcbHjaeCRikZLbz11CPAi7MmhxmErIsaDbE=",
-    "https://images.unsplash.com/photo-1713253702141-6b95e745260d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3RvbmUlMjB0b3duJTIwaW4lMjB6YW56aWJhcnxlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1713253702141-6b95e745260d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3RvbmUlMjB0b3duJTIwaW4lMjB6YW56aWJhcnxlbnwwfHwwfHx8MA%3D%3D"
-  ],
-  description: "A UNESCO World Heritage maze of Swahili culture, Arabian architecture, markets, and centuries of history.",
-  fullDescription: `Stone Town is the historic heart of Zanzibar City and a UNESCO World Heritage Site. It's a living museum of Swahili culture — where African, Arab, Persian, and European influences merge into one vibrant experience. 
+    id: "Stone-Town",
+    title: "Stone Town",
+    location: "Zanzibar City",
+    rating: 4.7,
+    reviewCount: 2147,
+    image: "https://images.unsplash.com/photo-1531168556467-80a3b279834b?auto=format&fit=crop&w=1600&h=900&q=80",
+    gallery: [
+      "https://media.istockphoto.com/id/1368609467/photo/old-streets-of-stone-town-on-zanzibar-island-tanzania.jpg?s=612x612&w=0&k=20&c=sByMj6Sy3ho5PLmAl7ogs-Fxu4YS2pt_KsVK1A96B9s=",
+      "https://media.istockphoto.com/id/1272435826/photo/historical-cannon-guns-the-war-monument-in-stone-town-zanzibar.jpg?s=612x612&w=0&k=20&c=obsZh_puriGHkIDYcngV7mf1dV2AK2J5n2SWrqOWGOs=",
+      "https://media.istockphoto.com/id/1137594795/photo/street-scene-of-stone-town-old-part-of-zanzibar-tanzania-africa.jpg?s=612x612&w=0&k=20&c=Dom7bHFfmcbHjaeCRikZLbz11CPAi7MmhxmErIsaDbE=",
+      "https://images.unsplash.com/photo-1713253702141-6b95e745260d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3RvbmUlMjB0b3duJTIwaW4lMjB6YW56aWJhcnxlbnwwfHwwfHx8MA%3D%3D",
+      "https://images.unsplash.com/photo-1713253702141-6b95e745260d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3RvbmUlMjB0b3duJTIwaW4lMjB6YW56aWJhcnxlbnwwfHwwfHx8MA%3D%3D"
+    ],
+    description: "A UNESCO World Heritage maze of Swahili culture, Arabian architecture, markets, and centuries of history.",
+    fullDescription: `Stone Town is the historic heart of Zanzibar City and a UNESCO World Heritage Site. It's a living museum of Swahili culture — where African, Arab, Persian, and European influences merge into one vibrant experience. 
   
-Wander through narrow alleys filled with wooden carved doors, spice markets, mosques, churches, lively bazaars, and historic palaces. Stone Town is home to iconic landmarks like the House of Wonders, the Old Fort, the Sultan’s Palace, the Anglican Cathedral (built over the former slave market), and Freddy Mercury’s childhood home.
+Wander through narrow alleys filled with wooden carved doors, spice markets, mosques, churches, lively bazaars, and historic palaces. Stone Town is home to iconic landmarks like the House of Wonders, the Old Fort, the Sultan's Palace, the Anglican Cathedral (built over the former slave market), and Freddy Mercury's childhood home.
   
 A guided walking tour reveals stories of slavery, sultans, pirates, colonial battles, and cultural exchange. It's the cultural and emotional heart of Zanzibar — perfect for photographers, food lovers, and history explorers.`,
-  highlight: "Culture, architecture & history",
-  duration: "3–5 Hours",
-  bestTime: "Afternoon & Sunset",
-  bestSeason: "All Year Round",
-  price: "From $35",
-  premiumPackage: "$75",
-  included: [
-    "Professional local history guide",
-    "Visit to House of Wonders",
-    "Entrance to Old Fort",
-    "Anglican Cathedral access",
-    "Visit the former slave market chambers",
-    "Local street food tasting",
-    "Bottle of mineral water",
-    "Travel insurance"
-  ],
-  activities: [
-    "Walking tour of ancient streets",
-    "Visit museums & historical buildings",
-    "Local food tasting & markets",
-    "Photography of carved wooden doors",
-    "Cultural storytelling from guides",
-    "Shopping for crafts & antiques",
-    "Evening sunset drinks by the waterfront"
-  ],
-  tips: [
-    "Wear comfortable walking shoes",
-    "Carry cash for markets",
-    "Avoid midday heat — afternoons are best",
-    "Dress modestly near religious sites",
-    "Stay alert in crowded bazaars",
-    "Great spot for sunset photography"
-  ],
-  tags: ["History", "Culture", "Walking Tour", "UNESCO", "Food"],
-  difficulty: "Easy",
-  groupSize: "1–20 people",
-  languages: ["English", "Swahili", "Italian", "Spanish"],
-  mapLink: "https://maps.google.com/?q=Stone+Town+Zanzibar"
-},
-
-{
-  id: "Prison-Island",
-  title: "Prison Island (Changuu)",
-  location: "West Zanzibar",
-  rating: 4.8,
-  reviewCount: 1893,
-  image: "https://media.istockphoto.com/id/506448196/photo/boat-near-chumbe-island-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=A0RCFb1ABO6fLvYoxk6M6ru-x1r6ChamZHtM1F7X6yQ=",
-  gallery: [
-    "https://media.istockphoto.com/id/1527824993/photo/this-is-the-largest-tortoise-in-the-world-and-one-of-the-most-protected-fauna-and-health.jpg?s=612x612&w=0&k=20&c=jsIgzD9hJiZpaHzrzKIYQV7RMxrUOzi5hYzbzlx01hs=",
-    "https://media.istockphoto.com/id/506448196/photo/boat-near-chumbe-island-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=A0RCFb1ABO6fLvYoxk6M6ru-x1r6ChamZHtM1F7X6yQ=",
-    "https://media.istockphoto.com/id/2205643104/photo/aldabra-giant-tortoise-on-prison-island-zanzibar-in-tanzania.jpg?s=612x612&w=0&k=20&c=I_epGUdEzl2-jtCq4bztPT23g0sTh7hB36rErAQgwrY=",
-    "https://media.istockphoto.com/id/1325355593/photo/prison-island-in-zanzibar-africa-tanzania.jpg?s=612x612&w=0&k=20&c=cE4WOp9fMQ-DAyr48N6LfPd3Pk9QNviajJM4JRAeL4Y=",
-    "https://media.istockphoto.com/id/1327941996/photo/a-tourist-woman-feeding-giant-turtle-aldabrachelys-gigantea-or-aldabra-giant-tortoise-with.webp?a=1&b=1&s=612x612&w=0&k=20&c=1XHSQxpsTa-TxQe7o5_sI0YjTJd-lkLeD6E8kflPm7Q="
-  ],
-  description: "A tropical escape famous for giant Aldabra tortoises, turquoise waters, snorkeling, and colonial history.",
-  fullDescription: `Prison Island, also known as Changuu Island, is one of Zanzibar’s most iconic escapes — a short boat ride from Stone Town. Originally intended as a 19th-century prison during the rule of the Sultan, the island instead became a quarantine station for infectious diseases during colonial times.
+    highlight: "Culture, architecture & history",
+    duration: "3–5 Hours",
+    bestTime: "Afternoon & Sunset",
+    bestSeason: "All Year Round",
+    price: "From $35",
+    premiumPackage: "$75",
+    included: [
+      "Professional local history guide",
+      "Visit to House of Wonders",
+      "Entrance to Old Fort",
+      "Anglican Cathedral access",
+      "Visit the former slave market chambers",
+      "Local street food tasting",
+      "Bottle of mineral water",
+      "Travel insurance"
+    ],
+    activities: [
+      "Walking tour of ancient streets",
+      "Visit museums & historical buildings",
+      "Local food tasting & markets",
+      "Photography of carved wooden doors",
+      "Cultural storytelling from guides",
+      "Shopping for crafts & antiques",
+      "Evening sunset drinks by the waterfront"
+    ],
+    tips: [
+      "Wear comfortable walking shoes",
+      "Carry cash for markets",
+      "Avoid midday heat — afternoons are best",
+      "Dress modestly near religious sites",
+      "Stay alert in crowded bazaars",
+      "Great spot for sunset photography"
+    ],
+    tags: ["History", "Culture", "Walking Tour", "UNESCO", "Food"],
+    difficulty: "Easy",
+    groupSize: "1–20 people",
+    languages: ["English", "Swahili", "Italian", "Spanish"],
+    mapLink: "https://maps.google.com/?q=Stone+Town+Zanzibar"
+  },
+  {
+    id: "Prison-Island",
+    title: "Prison Island (Changuu)",
+    location: "West Zanzibar",
+    rating: 4.8,
+    reviewCount: 1893,
+    image: "https://media.istockphoto.com/id/506448196/photo/boat-near-chumbe-island-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=A0RCFb1ABO6fLvYoxk6M6ru-x1r6ChamZHtM1F7X6yQ=",
+    gallery: [
+      "https://media.istockphoto.com/id/1527824993/photo/this-is-the-largest-tortoise-in-the-world-and-one-of-the-most-protected-fauna-and-health.jpg?s=612x612&w=0&k=20&c=jsIgzD9hJiZpaHzrzKIYQV7RMxrUOzi5hYzbzlx01hs=",
+      "https://media.istockphoto.com/id/506448196/photo/boat-near-chumbe-island-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=A0RCFb1ABO6fLvYoxk6M6ru-x1r6ChamZHtM1F7X6yQ=",
+      "https://media.istockphoto.com/id/2205643104/photo/aldabra-giant-tortoise-on-prison-island-zanzibar-in-tanzania.jpg?s=612x612&w=0&k=20&c=I_epGUdEzl2-jtCq4bztPT23g0sTh7hB36rErAQgwrY=",
+      "https://media.istockphoto.com/id/1325355593/photo/prison-island-in-zanzibar-africa-tanzania.jpg?s=612x612&w=0&k=20&c=cE4WOp9fMQ-DAyr48N6LfPd3Pk9QNviajJM4JRAeL4Y=",
+      "https://media.istockphoto.com/id/1327941996/photo/a-tourist-woman-feeding-giant-turtle-aldabrachelys-gigantea-or-aldabra-giant-tortoise-with.webp?a=1&b=1&s=612x612&w=0&k=20&c=1XHSQxpsTa-TxQe7o5_sI0YjTJd-lkLeD6E8kflPm7Q="
+    ],
+    description: "A tropical escape famous for giant Aldabra tortoises, turquoise waters, snorkeling, and colonial history.",
+    fullDescription: `Prison Island, also known as Changuu Island, is one of Zanzibar's most iconic escapes — a short boat ride from Stone Town. Originally intended as a 19th-century prison during the rule of the Sultan, the island instead became a quarantine station for infectious diseases during colonial times.
 
 Today, it is a peaceful sanctuary home to giant Aldabra tortoises — some over 150 years old — introduced as a royal gift from the Seychelles. Visitors can feed and interact with these gentle giants, explore historic ruins, relax on pristine beaches, and snorkel in calm turquoise waters teeming with marine life.
 
 Prison Island is the perfect mix of wildlife, history, and tropical relaxation — a must-visit for families, couples, and ocean lovers.`,
-  highlight: "Giant tortoises & snorkeling",
-  duration: "2–4 Hours",
-  bestTime: "Morning",
-  bestSeason: "June – October",
-  price: "From $40",
-  premiumPackage: "$95",
-  included: [
-    "Return boat transfer from Stone Town",
-    "Entrance fee to Tortoise Sanctuary",
-    "Feeding leaves for tortoises",
-    "Snorkeling equipment (mask & fins)",
-    "Professional marine guide",
-    "Life jackets & safety briefing",
-    "Drinking water",
-    "Travel insurance coverage"
-  ],
-  activities: [
-    "Feeding giant Aldabra tortoises",
-    "Snorkeling in turquoise coral waters",
-    "Relaxing on pristine beach spots",
-    "Exploring colonial quarantine hospital ruins",
-    "Nature & wildlife photography",
-    "Boat cruising from Stone Town",
-    "Short hikes around the island"
-  ],
-  tips: [
-    "Bring reef-safe sunscreen",
-    "Protect phones with a waterproof pouch",
-    "Avoid touching coral while snorkeling",
-    "Stay hydrated — it's hot midday",
-    "Respect tortoise handling guidelines",
-    "Cash recommended for snacks & tips"
-  ],
-  tags: ["Wildlife", "Snorkeling", "Beach", "Family Friendly", "History"],
-  difficulty: "Easy",
-  groupSize: "2–18 people",
-  languages: ["English", "Swahili", "French", "German"],
-  mapLink: "https://maps.google.com/?q=Prison+Island+Zanzibar"
-},
+    highlight: "Giant tortoises & snorkeling",
+    duration: "2–4 Hours",
+    bestTime: "Morning",
+    bestSeason: "June – October",
+    price: "From $40",
+    premiumPackage: "$95",
+    included: [
+      "Return boat transfer from Stone Town",
+      "Entrance fee to Tortoise Sanctuary",
+      "Feeding leaves for tortoises",
+      "Snorkeling equipment (mask & fins)",
+      "Professional marine guide",
+      "Life jackets & safety briefing",
+      "Drinking water",
+      "Travel insurance coverage"
+    ],
+    activities: [
+      "Feeding giant Aldabra tortoises",
+      "Snorkeling in turquoise coral waters",
+      "Relaxing on pristine beach spots",
+      "Exploring colonial quarantine hospital ruins",
+      "Nature & wildlife photography",
+      "Boat cruising from Stone Town",
+      "Short hikes around the island"
+    ],
+    tips: [
+      "Bring reef-safe sunscreen",
+      "Protect phones with a waterproof pouch",
+      "Avoid touching coral while snorkeling",
+      "Stay hydrated — it's hot midday",
+      "Respect tortoise handling guidelines",
+      "Cash recommended for snacks & tips"
+    ],
+    tags: ["Wildlife", "Snorkeling", "Beach", "Family Friendly", "History"],
+    difficulty: "Easy",
+    groupSize: "2–18 people",
+    languages: ["English", "Swahili", "French", "German"],
+    mapLink: "https://maps.google.com/?q=Prison+Island+Zanzibar"
+  },
+  {
+    id: "Jozani-Forest",
+    title: "Jozani Forest National Park",
+    location: "South Zanzibar",
+    rating: 4.6,
+    reviewCount: 1624,
+    image: "https://media.istockphoto.com/id/1140174416/photo/mangrove-forest-in-zanzibar-tanzania-africa.jpg?s=612x612&w=0&k=20&c=gWj8HblL-ZV_CVEabaJGYXJ4YhCVn8WPEAcwvLDusHs=",
+    gallery: [
+      "https://media.istockphoto.com/id/2206121759/photo/african-rainforest-jozani-forest-at-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=qfmF_VLavEjuccT8JY0ImV2ngi0f6t1uo9N73PA4_-E=",
+      "https://media.istockphoto.com/id/1307564825/photo/kirks-red-colobus-monkey-in-the-jozani-forest-reserve-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=wgXAf-xf9pVME1oR8wqNtyQZ1tO7V6hwQDfoUvmGrI0=",
+      "https://media.istockphoto.com/id/1191440840/photo/young-green-plants-in-the-dark-mangrove-forest.jpg?s=612x612&w=0&k=20&c=UuxwVXJydTgAqp3M3-Y-TtKl7EqZHoAhEFqcMeOTL-4=",
+      "https://media.istockphoto.com/id/1140174416/photo/mangrove-forest-in-zanzibar-tanzania-africa.jpg?s=612x612&w=0&k=20&c=gWj8HblL-ZV_CVEabaJGYXJ4YhCVn8WPEAcwvLDusHs=",
+      "https://media.istockphoto.com/id/1410528993/photo/jungle-forest-jozani-chwaka-bay-national-park-zanzibar-tanzania.webp?a=1&b=1&s=612x612&w=0&k=20&c=UfAEXQK9zxIHivApLB6UkTr1kuBI6e4argHxtcrJ_H4=",
+    ],
+    description: "Zanzibar's only national park — home to rare red colobus monkeys, mangrove boardwalks, and tropical wildlife.",
+    fullDescription: `Jozani Forest National Park is Zanzibar's green heart — a protected ecological sanctuary home to the endangered red colobus monkey, found nowhere else on Earth. The evergreen forest ecosystem combines mahogany trees, swamp mangroves, medicinal plants, butterflies, birds, and small antelopes like the shy duiker.
 
-{
-  id: "Jozani-Forest",
-  title: "Jozani Forest National Park",
-  location: "South Zanzibar",
-  rating: 4.6,
-  reviewCount: 1624,
-  image: "https://media.istockphoto.com/id/1140174416/photo/mangrove-forest-in-zanzibar-tanzania-africa.jpg?s=612x612&w=0&k=20&c=gWj8HblL-ZV_CVEabaJGYXJ4YhCVn8WPEAcwvLDusHs=",
-  gallery: [
-    "https://media.istockphoto.com/id/2206121759/photo/african-rainforest-jozani-forest-at-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=qfmF_VLavEjuccT8JY0ImV2ngi0f6t1uo9N73PA4_-E=",
-    "https://media.istockphoto.com/id/1307564825/photo/kirks-red-colobus-monkey-in-the-jozani-forest-reserve-zanzibar-tanzania.jpg?s=612x612&w=0&k=20&c=wgXAf-xf9pVME1oR8wqNtyQZ1tO7V6hwQDfoUvmGrI0=",
-    "https://media.istockphoto.com/id/1191440840/photo/young-green-plants-in-the-dark-mangrove-forest.jpg?s=612x612&w=0&k=20&c=UuxwVXJydTgAqp3M3-Y-TtKl7EqZHoAhEFqcMeOTL-4=",
-    "https://media.istockphoto.com/id/1140174416/photo/mangrove-forest-in-zanzibar-tanzania-africa.jpg?s=612x612&w=0&k=20&c=gWj8HblL-ZV_CVEabaJGYXJ4YhCVn8WPEAcwvLDusHs=",
-    "https://media.istockphoto.com/id/1410528993/photo/jungle-forest-jozani-chwaka-bay-national-park-zanzibar-tanzania.webp?a=1&b=1&s=612x612&w=0&k=20&c=UfAEXQK9zxIHivApLB6UkTr1kuBI6e4argHxtcrJ_H4=",
-    // "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&h=900&q=80"
-  ],
-  description: "Zanzibar’s only national park — home to rare red colobus monkeys, mangrove boardwalks, and tropical wildlife.",
-  fullDescription: `Jozani Forest National Park is Zanzibar’s green heart — a protected ecological sanctuary home to the endangered red colobus monkey, found nowhere else on Earth. The evergreen forest ecosystem combines mahogany trees, swamp mangroves, medicinal plants, butterflies, birds, and small antelopes like the shy duiker.
+Guided eco-tours walk through jungle trails, where red colobus and Sykes' monkeys leap across branches overhead. You'll explore the enchanting mangrove boardwalk — a maze of raised wooden bridges through tidal swamps teeming with crabs, fish nurseries, and unique flora.
 
-Guided eco-tours walk through jungle trails, where red colobus and Sykes’ monkeys leap across branches overhead. You’ll explore the enchanting mangrove boardwalk — a maze of raised wooden bridges through tidal swamps teeming with crabs, fish nurseries, and unique flora.
-
-Jozani is also part of Zanzibar’s nature conservation program to protect biodiversity, carbon-absorbing forests, and wildlife education. It is an unforgettable journey into the wild side of the archipelago — peaceful, scenic, and family-friendly.`,
-  highlight: "Red colobus monkeys & mangrove walk",
-  duration: "2–3 Hours",
-  bestTime: "Morning",
-  bestSeason: "All Year Round",
-  price: "From $30",
-  premiumPackage: "$85",
-  included: [
-    "Park entrance fee",
-    "Professional wildlife guide",
-    "Mangrove boardwalk access",
-    "Red colobus conservation briefing",
-    "Bottled drinking water",
-    "Hotel transfers (optional)",
-    "Travel insurance"
-  ],
-  activities: [
-    "Watching rare red colobus monkeys",
-    "Mangrove forest boardwalk",
-    "Bird watching & butterflies",
-    "Nature conservation insights",
-    "Photography in dense rainforest",
-    "Medicinal plant explanations",
-    "Short guided jungle hikes"
-  ],
-  tips: [
-    "Wear comfortable walking shoes",
-    "Bring mosquito repellent",
-    "Avoid touching wildlife",
-    "Stay quiet around monkeys",
-    "Protect electronics in humid areas",
-    "Great for kids and families"
-  ],
-  tags: ["Wildlife", "Nature", "Eco-Tour", "Family Friendly", "Photography"],
-  difficulty: "Easy",
-  groupSize: "2–16 people",
-  languages: ["English", "Swahili", "French", "Italian"],
-  mapLink: "https://maps.google.com/?q=Jozani+Forest+Zanzibar"
-},
-
-{
-  id: "Kae-Beach",
-  title: "Kae Beach Sunset Paradise",
-  location: "Michamvi Peninsula, South Zanzibar",
-  rating: 4.8,
-  reviewCount: 1742,
-  image: "https://images.unsplash.com/photo-1632751334597-b26a1435ac2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
-  gallery: [
-    "https://images.unsplash.com/photo-1577199000360-1ee6cedba129?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3Dhttps://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&h=900&q=80",
-    "https://media.istockphoto.com/id/172992736/photo/tropical-dawn.webp?a=1&b=1&s=612x612&w=0&k=20&c=wkWA5mdv1q-bxC6ygfjVeoQf4U7plIOnIZzYFgCThsE=",
-    "https://images.unsplash.com/photo-1627899316397-3556313abd3d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1646667640427-60051a721841?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1563453778883-5bc2ad352c00?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D"
-  ],
-  description: "One of Zanzibar’s most magical sunset beaches — calm tides, barefoot relaxation, cocktails, and Indian Ocean views.",
-  fullDescription: `Kae Beach, located on the Michamvi Peninsula, is one of Zanzibar’s most breathtaking sunset destinations. Known for its calm lagoon waters, swaying palms, and barefoot beach bars, Kae is the perfect escape for couples, solo travelers, and anyone who just wants to relax in paradise.
+Jozani is also part of Zanzibar's nature conservation program to protect biodiversity, carbon-absorbing forests, and wildlife education. It is an unforgettable journey into the wild side of the archipelago — peaceful, scenic, and family-friendly.`,
+    highlight: "Red colobus monkeys & mangrove walk",
+    duration: "2–3 Hours",
+    bestTime: "Morning",
+    bestSeason: "All Year Round",
+    price: "From $30",
+    premiumPackage: "$85",
+    included: [
+      "Park entrance fee",
+      "Professional wildlife guide",
+      "Mangrove boardwalk access",
+      "Red colobus conservation briefing",
+      "Bottled drinking water",
+      "Hotel transfers (optional)",
+      "Travel insurance"
+    ],
+    activities: [
+      "Watching rare red colobus monkeys",
+      "Mangrove forest boardwalk",
+      "Bird watching & butterflies",
+      "Nature conservation insights",
+      "Photography in dense rainforest",
+      "Medicinal plant explanations",
+      "Short guided jungle hikes"
+    ],
+    tips: [
+      "Wear comfortable walking shoes",
+      "Bring mosquito repellent",
+      "Avoid touching wildlife",
+      "Stay quiet around monkeys",
+      "Protect electronics in humid areas",
+      "Great for kids and families"
+    ],
+    tags: ["Wildlife", "Nature", "Eco-Tour", "Family Friendly", "Photography"],
+    difficulty: "Easy",
+    groupSize: "2–16 people",
+    languages: ["English", "Swahili", "French", "Italian"],
+    mapLink: "https://maps.google.com/?q=Jozani+Forest+Zanzibar"
+  },
+  {
+    id: "Kae-Beach",
+    title: "Kae Beach Sunset Paradise",
+    location: "Michamvi Peninsula, South Zanzibar",
+    rating: 4.8,
+    reviewCount: 1742,
+    image: "https://images.unsplash.com/photo-1632751334597-b26a1435ac2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
+    gallery: [
+      "https://images.unsplash.com/photo-1577199000360-1ee6cedba129?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
+      "https://media.istockphoto.com/id/172992736/photo/tropical-dawn.webp?a=1&b=1&s=612x612&w=0&k=20&c=wkWA5mdv1q-bxC6ygfjVeoQf4U7plIOnIZzYFgCThsE=",
+      "https://images.unsplash.com/photo-1627899316397-3556313abd3d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
+      "https://images.unsplash.com/photo-1646667640427-60051a721841?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D",
+      "https://images.unsplash.com/photo-1563453778883-5bc2ad352c00?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHN1biUyMHNldCUyMGNydWlzZSUyMGluJTIwemFuemliYXJ8ZW58MHx8MHx8fDA%3D"
+    ],
+    description: "One of Zanzibar's most magical sunset beaches — calm tides, barefoot relaxation, cocktails, and Indian Ocean views.",
+    fullDescription: `Kae Beach, located on the Michamvi Peninsula, is one of Zanzibar's most breathtaking sunset destinations. Known for its calm lagoon waters, swaying palms, and barefoot beach bars, Kae is the perfect escape for couples, solo travelers, and anyone who just wants to relax in paradise.
 
 When the tide lowers, the ocean pulls back to reveal dreamy sand flats — perfect for photography and long barefoot walks into the horizon. As sunset approaches, the beach transforms into a mellow paradise of beanbags, fire shows, cocktails, live music, and romantic vibes.
 
 Many visitors call Kae the *"Santorini of Zanzibar sunsets"* — peaceful, cinematic, and unforgettable.`,
-  highlight: "Unforgettable sunset views & beach bars",
-  duration: "Half Day – Full Day",
-  bestTime: "Sunset",
-  bestSeason: "July – November",
-  price: "Free beach access",
-  premiumPackage: "$45 (Sunset Experience)",
-  included: [
-    "Reserved sunset seating (beanbags or sunbeds)",
-    "Cocktail or fresh juice",
-    "Beach fire ceremony",
-    "Live sunset DJ",
-    "Soft drink water",
-    "Photography assistance"
-  ],
-  activities: [
-    "Sunset watching",
-    "Cocktails on the beach",
-    "Photography on tidal flats",
-    "Swimming in calm lagoon waters",
-    "Dining at beach restaurants",
-    "Live music & fire shows",
-    "Romantic evening walks"
-  ],
-  tips: [
-    "Arrive 1 hour before sunset to secure a good spot",
-    "Check tide schedule — low tide creates stunning reflections",
-    "Bring a light jacket after sunset (ocean breeze)",
-    "Avoid swimming at night",
-    "Try local cocktails like Dawa or Passion Mojito"
-  ],
-  tags: ["Sunset", "Beach Bars", "Romantic", "Chill", "Photography"],
-  difficulty: "Very Easy",
-  groupSize: "1–50 people",
-  languages: ["English", "Swahili", "French", "Italian"],
-  mapLink: "https://maps.google.com/?q=Kae+Beach+Zanzibar"
-}
-
-
-
-
-  // Add other destinations with similar structure
+    highlight: "Unforgettable sunset views & beach bars",
+    duration: "Half Day – Full Day",
+    bestTime: "Sunset",
+    bestSeason: "July – November",
+    price: "Free beach access",
+    premiumPackage: "$45 (Sunset Experience)",
+    included: [
+      "Reserved sunset seating (beanbags or sunbeds)",
+      "Cocktail or fresh juice",
+      "Beach fire ceremony",
+      "Live sunset DJ",
+      "Soft drink water",
+      "Photography assistance"
+    ],
+    activities: [
+      "Sunset watching",
+      "Cocktails on the beach",
+      "Photography on tidal flats",
+      "Swimming in calm lagoon waters",
+      "Dining at beach restaurants",
+      "Live music & fire shows",
+      "Romantic evening walks"
+    ],
+    tips: [
+      "Arrive 1 hour before sunset to secure a good spot",
+      "Check tide schedule — low tide creates stunning reflections",
+      "Bring a light jacket after sunset (ocean breeze)",
+      "Avoid swimming at night",
+      "Try local cocktails like Dawa or Passion Mojito"
+    ],
+    tags: ["Sunset", "Beach Bars", "Romantic", "Chill", "Photography"],
+    difficulty: "Very Easy",
+    groupSize: "1–50 people",
+    languages: ["English", "Swahili", "French", "Italian"],
+    mapLink: "https://maps.google.com/?q=Kae+Beach+Zanzibar"
+  }
 ];
+
+// Booking Service
+const bookingService = {
+  createBooking: async (bookingData) => {
+    try {
+      // Replace with your actual backend URL
+      const response = await fetch(`${API_BASE_URL}/api/booking/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Booking service error:", error);
+      throw error;
+    }
+  },
+
+  validateBooking: (formData) => {
+    const errors = {};
+    
+    if (!formData.fullName.trim()) {
+      errors.fullName = "Full name is required";
+    }
+    
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Please enter a valid email";
+    }
+    
+    if (!formData.phone.trim()) {
+      errors.phone = "Phone number is required";
+    }
+    
+    if (!formData.date) {
+      errors.date = "Travel date is required";
+    }
+    
+    return errors;
+  }
+};
 
 export default function DestinationDetail() {
   const { destinationId } = useParams();
@@ -402,6 +453,21 @@ export default function DestinationDetail() {
   const [showGallery, setShowGallery] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [selectedPackage, setSelectedPackage] = useState("standard");
+  
+  // Booking states
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [bookingForm, setBookingForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    date: new Date(),
+    numberOfPeople: 1,
+    packageType: "standard",
+    specialRequests: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [bookingError, setBookingError] = useState("");
 
   useEffect(() => {
     const found = destinations.find((d) => d.id === destinationId);
@@ -412,8 +478,79 @@ export default function DestinationDetail() {
     setIsBookmarked(Math.random() > 0.5);
   }, [destinationId]);
 
+  const handleBookingChange = (e) => {
+    const { name, value } = e.target;
+    setBookingForm({
+      ...bookingForm,
+      [name]: value,
+    });
+  };
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+    setBookingError("");
+    
+    // Validate form
+    const errors = bookingService.validateBooking(bookingForm);
+    if (Object.keys(errors).length > 0) {
+      setBookingError("Please fill all required fields correctly.");
+      return;
+    }
+    
+    setIsSubmitting(true);
+
+    try {
+      const standardPrice = parseFloat(destination?.price?.replace("From $", "") || destination?.price?.replace("$", "") || 45);
+      const premiumPrice = parseFloat(destination?.premiumPackage?.replace("$", "") || 85);
+      const packagePrice = selectedPackage === "standard" ? standardPrice : premiumPrice;
+      
+      const bookingData = {
+        full_name: bookingForm.fullName,
+        email: bookingForm.email,
+        phone: bookingForm.phone,
+        tour: `${destination.title} (${selectedPackage === "standard" ? "Standard" : "Premium"} Package)`,
+        message: `
+Date: ${bookingForm.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+Number of People: ${bookingForm.numberOfPeople}
+Package Type: ${selectedPackage === "standard" ? "Standard" : "Premium"}
+Estimated Total: $${packagePrice * bookingForm.numberOfPeople}
+${bookingForm.specialRequests ? `Special Requests: ${bookingForm.specialRequests}` : ""}
+        `.trim(),
+      };
+
+      await bookingService.createBooking(bookingData);
+      
+      setBookingSuccess(true);
+      
+      // Reset form after success
+      setTimeout(() => {
+        setShowBookingModal(false);
+        setBookingSuccess(false);
+        setBookingForm({
+          fullName: "",
+          email: "",
+          phone: "",
+          date: new Date(),
+          numberOfPeople: 1,
+          packageType: "standard",
+          specialRequests: "",
+        });
+      }, 3000);
+      
+    } catch (error) {
+      console.error("Booking error:", error);
+      setBookingError("Failed to submit booking. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleBookNow = () => {
-    alert(`Booking ${destination?.title} - ${selectedPackage === "standard" ? destination?.price : destination?.premiumPackage}`);
+    setBookingForm({
+      ...bookingForm,
+      packageType: selectedPackage,
+    });
+    setShowBookingModal(true);
   };
 
   const handleShare = () => {
@@ -427,6 +564,17 @@ export default function DestinationDetail() {
       navigator.clipboard.writeText(window.location.href);
       alert("Link copied to clipboard!");
     }
+  };
+
+  // Calculate total price
+  const calculateTotalPrice = () => {
+    if (!destination) return 0;
+    
+    const standardPrice = parseFloat(destination?.price?.replace("From $", "") || destination?.price?.replace("$", "") || 45);
+    const premiumPrice = parseFloat(destination?.premiumPackage?.replace("$", "") || 85);
+    const price = selectedPackage === "standard" ? standardPrice : premiumPrice;
+    
+    return price * bookingForm.numberOfPeople;
   };
 
   if (!destination) {
@@ -1121,6 +1269,44 @@ export default function DestinationDetail() {
                     </div>
                   </div>
 
+                  {/* Quick Booking Summary */}
+                  <div style={{
+                    background: "#f8f9fa",
+                    borderRadius: "15px",
+                    padding: "20px",
+                    marginBottom: "20px"
+                  }}>
+                    <h6 style={{ fontWeight: 700, color: COLORS.accent, marginBottom: "15px" }}>
+                      <CalendarDateFill className="me-2" />
+                      Quick Summary
+                    </h6>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span>Package:</span>
+                        <span style={{ fontWeight: 600 }}>
+                          {selectedPackage === "standard" ? "Standard" : "Premium"}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span>Price per person:</span>
+                        <span style={{ fontWeight: 600 }}>
+                          {selectedPackage === "standard" ? destination.price : destination.premiumPackage}
+                        </span>
+                      </div>
+                      <hr style={{ margin: "10px 0" }} />
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ fontWeight: 700 }}>Estimated Total:</span>
+                        <span style={{ 
+                          fontWeight: 800, 
+                          color: COLORS.primary,
+                          fontSize: "1.2rem"
+                        }}>
+                          ${calculateTotalPrice()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Booking Button */}
                   <Button
                     onClick={handleBookNow}
@@ -1224,6 +1410,348 @@ export default function DestinationDetail() {
         </Row>
       </Container>
 
+      {/* Booking Modal */}
+      <Modal
+        show={showBookingModal}
+        onHide={() => !isSubmitting && setShowBookingModal(false)}
+        size="lg"
+        centered
+        backdrop="static"
+      >
+        <Modal.Header 
+          closeButton={!isSubmitting}
+          style={{
+            background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryDark})`,
+            color: "white",
+            borderBottom: "none"
+          }}
+        >
+          <Modal.Title style={{ fontWeight: 700 }}>
+            <CalendarCheck className="me-2" />
+            Book {destination?.title}
+          </Modal.Title>
+        </Modal.Header>
+        
+        <Modal.Body style={{ padding: "30px" }}>
+          {bookingSuccess ? (
+            <div style={{ textAlign: "center", padding: "40px 20px" }}>
+              <div style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "50%",
+                background: `${COLORS.success}20`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 20px"
+              }}>
+                <CheckCircleFill size={40} color={COLORS.success} />
+              </div>
+              <h4 style={{ color: COLORS.success, marginBottom: "10px" }}>
+                Booking Submitted Successfully!
+              </h4>
+              <p style={{ color: "#666" }}>
+                We've sent a confirmation to your email. 
+                Our team will contact you shortly.
+              </p>
+              <Button
+                variant="primary"
+                onClick={() => setShowBookingModal(false)}
+                style={{
+                  marginTop: "20px",
+                  borderRadius: "50px",
+                  padding: "10px 30px"
+                }}
+              >
+                Close
+              </Button>
+            </div>
+          ) : (
+            <Form onSubmit={handleBookingSubmit}>
+              {bookingError && (
+                <Alert variant="danger" className="mb-4" dismissible onClose={() => setBookingError("")}>
+                  <InfoCircle className="me-2" />
+                  {bookingError}
+                </Alert>
+              )}
+
+              <Row className="mb-3">
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label style={{ fontWeight: 600, color: COLORS.accent }}>
+                      <PersonFill className="me-2" />
+                      Full Name *
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="fullName"
+                      value={bookingForm.fullName}
+                      onChange={handleBookingChange}
+                      required
+                      placeholder="Enter your full name"
+                      style={{ borderRadius: "10px", padding: "12px" }}
+                    />
+                  </Form.Group>
+                </Col>
+                
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label style={{ fontWeight: 600, color: COLORS.accent }}>
+                      <EnvelopeFill className="me-2" />
+                      Email *
+                    </Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={bookingForm.email}
+                      onChange={handleBookingChange}
+                      required
+                      placeholder="your@email.com"
+                      style={{ borderRadius: "10px", padding: "12px" }}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row className="mb-3">
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label style={{ fontWeight: 600, color: COLORS.accent }}>
+                      <TelephoneFill className="me-2" />
+                      Phone Number *
+                    </Form.Label>
+                    <Form.Control
+                      type="tel"
+                      name="phone"
+                      value={bookingForm.phone}
+                      onChange={handleBookingChange}
+                      required
+                      placeholder="+255 XXX XXX XXX"
+                      style={{ borderRadius: "10px", padding: "12px" }}
+                    />
+                  </Form.Group>
+                </Col>
+                
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label style={{ fontWeight: 600, color: COLORS.accent }}>
+                      <CalendarDateFill className="me-2" />
+                      Travel Date *
+                    </Form.Label>
+                    <DatePicker
+                      selected={bookingForm.date}
+                      onChange={(date) => setBookingForm({...bookingForm, date})}
+                      minDate={new Date()}
+                      className="form-control"
+                      style={{ borderRadius: "10px", padding: "12px", width: "100%" }}
+                      wrapperClassName="w-100"
+                      dateFormat="MMMM d, yyyy"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row className="mb-3">
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label style={{ fontWeight: 600, color: COLORS.accent }}>
+                      <PeopleFill className="me-2" />
+                      Number of People *
+                    </Form.Label>
+                    <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() => bookingForm.numberOfPeople > 1 && 
+                          setBookingForm({...bookingForm, numberOfPeople: bookingForm.numberOfPeople - 1})}
+                        disabled={bookingForm.numberOfPeople <= 1}
+                        style={{ width: "40px", height: "40px", borderRadius: "10px" }}
+                      >
+                        -
+                      </Button>
+                      <div style={{
+                        minWidth: "80px",
+                        textAlign: "center",
+                        padding: "10px",
+                        background: "#f8f9fa",
+                        borderRadius: "10px"
+                      }}>
+                        <span style={{ fontSize: "1.2rem", fontWeight: 600 }}>
+                          {bookingForm.numberOfPeople}
+                        </span>
+                        <div style={{ fontSize: "0.8rem", color: "#666" }}>
+                          {bookingForm.numberOfPeople === 1 ? "person" : "people"}
+                        </div>
+                      </div>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() => setBookingForm({...bookingForm, numberOfPeople: bookingForm.numberOfPeople + 1})}
+                        style={{ width: "40px", height: "40px", borderRadius: "10px" }}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </Form.Group>
+                </Col>
+                
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label style={{ fontWeight: 600, color: COLORS.accent }}>
+                      <CurrencyDollar className="me-2" />
+                      Package *
+                    </Form.Label>
+                    <div style={{
+                      padding: "15px",
+                      borderRadius: "15px",
+                      background: `${selectedPackage === "standard" ? COLORS.primary + "10" : COLORS.secondary + "10"}`,
+                      border: `2px solid ${selectedPackage === "standard" ? COLORS.primary : COLORS.secondary}`,
+                    }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div>
+                          <h6 style={{ margin: 0, fontWeight: 700, color: COLORS.accent }}>
+                            {selectedPackage === "standard" ? "Standard" : "Premium"}
+                          </h6>
+                          <small style={{ color: "#666" }}>
+                            {selectedPackage === "standard" ? destination?.price : destination?.premiumPackage} per person
+                          </small>
+                        </div>
+                        <Button
+                          variant={selectedPackage === "standard" ? "outline-primary" : "outline-secondary"}
+                          size="sm"
+                          onClick={() => {
+                            const newPackage = selectedPackage === "standard" ? "premium" : "standard";
+                            setSelectedPackage(newPackage);
+                            setBookingForm({...bookingForm, packageType: newPackage});
+                          }}
+                        >
+                          Switch
+                        </Button>
+                      </div>
+                    </div>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Form.Group className="mb-4">
+                <Form.Label style={{ fontWeight: 600, color: COLORS.accent }}>
+                  <InfoCircle className="me-2" />
+                  Special Requests (Optional)
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  name="specialRequests"
+                  value={bookingForm.specialRequests}
+                  onChange={handleBookingChange}
+                  rows={3}
+                  placeholder="Any dietary requirements, accessibility needs, or special arrangements..."
+                  style={{ borderRadius: "10px", padding: "12px" }}
+                />
+              </Form.Group>
+
+              {/* Price Summary */}
+              <Card style={{
+                background: "#f8f9fa",
+                border: `2px solid ${COLORS.primary}20`,
+                borderRadius: "15px",
+                marginBottom: "20px"
+              }}>
+                <Card.Body>
+                  <h6 style={{ fontWeight: 700, color: COLORS.accent, marginBottom: "15px" }}>
+                    <GeoAlt className="me-2" />
+                    Booking Summary
+                  </h6>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span>Destination:</span>
+                      <span style={{ fontWeight: 600 }}>{destination?.title}</span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span>Package:</span>
+                      <span style={{ fontWeight: 600 }}>
+                        {selectedPackage === "standard" ? "Standard" : "Premium"}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span>Travel Date:</span>
+                      <span style={{ fontWeight: 600 }}>
+                        {bookingForm.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span>Number of People:</span>
+                      <span style={{ fontWeight: 600 }}>{bookingForm.numberOfPeople}</span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span>Price per person:</span>
+                      <span style={{ fontWeight: 600 }}>
+                        {selectedPackage === "standard" ? destination?.price : destination?.premiumPackage}
+                      </span>
+                    </div>
+                    <hr style={{ margin: "10px 0" }} />
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span style={{ fontWeight: 700, fontSize: "1.1rem" }}>Total Estimated:</span>
+                      <span style={{ 
+                        fontWeight: 800, 
+                        color: COLORS.primary,
+                        fontSize: "1.3rem"
+                      }}>
+                        ${calculateTotalPrice()}
+                      </span>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
+
+              {/* Booking Terms */}
+              <div style={{
+                padding: "15px",
+                background: `${COLORS.warning}15`,
+                borderRadius: "10px",
+                marginBottom: "20px"
+              }}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                  <ShieldCheck color={COLORS.info} size={20} />
+                  <div>
+                    <small style={{ fontWeight: 600, display: "block" }}>
+                      Secure Booking & Free Cancellation
+                    </small>
+                    <small style={{ color: "#666" }}>
+                      Cancel up to 24 hours before your tour for a full refund. Your booking is secure and protected.
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                style={{
+                  width: "100%",
+                  background: `linear-gradient(45deg, ${COLORS.primary}, ${COLORS.primaryDark})`,
+                  border: "none",
+                  borderRadius: "15px",
+                  padding: "15px",
+                  fontWeight: 700,
+                  fontSize: "1.1rem",
+                  boxShadow: "0 10px 20px rgba(10, 141, 124, 0.3)"
+                }}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Spinner animation="border" size="sm" className="me-2" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Send className="me-2" />
+                    Confirm & Book Now
+                  </>
+                )}
+              </Button>
+            </Form>
+          )}
+        </Modal.Body>
+      </Modal>
+
       {/* Gallery Modal */}
       <Modal
         show={showGallery}
@@ -1298,6 +1826,18 @@ export default function DestinationDetail() {
 
         ::-webkit-scrollbar-thumb:hover {
           background: linear-gradient(45deg, ${COLORS.primaryDark}, ${COLORS.secondaryLight});
+        }
+
+        .datepicker-container {
+          width: 100%;
+        }
+
+        .datepicker-container .react-datepicker-wrapper {
+          width: 100%;
+        }
+
+        .datepicker-container .react-datepicker__input-container {
+          width: 100%;
         }
       `}</style>
     </div>
