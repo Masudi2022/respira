@@ -1,3 +1,4 @@
+# Use official Python slim image
 FROM python:3.11-slim
 
 # Prevent Python from writing .pyc files + unbuffered output
@@ -13,21 +14,21 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first (for better caching)
-COPY RespiraBakend/ .
+# Copy requirements first (for caching)
+COPY RespiraBakend/requirements.txt .
 
 # Upgrade pip and install dependencies
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project (now only backend since context is RespiraBakend/)
-COPY . .
+# Copy the backend code
+COPY RespiraBakend/ . 
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Run migrations (important for production)
-RUN python manage.py migrate --noinput
+# Expose the port Gunicorn will run on
+EXPOSE 8000
 
-# Run with Gunicorn
-CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]
-
+# Use the entrypoint script
+ENTRYPOINT ["RespiraBakend/entrypoint.sh"]
