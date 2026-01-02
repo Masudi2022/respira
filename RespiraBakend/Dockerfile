@@ -24,7 +24,7 @@ RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 COPY RespiraBakend/ . 
 
 # Copy entrypoint script
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh RespiraBakend/entrypoint.sh
 RUN chmod +x RespiraBakend/entrypoint.sh
 
 # Expose the port Gunicorn will run on
