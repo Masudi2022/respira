@@ -37,7 +37,11 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "respira-8u3k.onrender.com",  # Your real backend URL
+    "localhost",
+    "127.0.0.1",
+]
 
 
 
