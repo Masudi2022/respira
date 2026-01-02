@@ -91,16 +91,17 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 import os
 from pathlib import Path
+import os
 import dj_database_url
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        deffault="sqlite:///db.sqlite3",
+        default=os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),
         conn_max_age=600,
         ssl_require=True,
     )
 }
+
 
 
 
