@@ -1,5 +1,7 @@
 __pycache__
 *.pyc
-.env
-db.sqlite3
+*.pyo
+*.pyd
 .git
+.env
+# media/
