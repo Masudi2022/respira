@@ -41,6 +41,13 @@ ALLOWED_HOSTS = [
     "respira-8u3k.onrender.com",  # Your real backend URL
     "localhost",
     "127.0.0.1",
+    "0.0.0.0",
+    "respira.onrender.com",
+    "https://www.respira.onrender.com",
+    "www.respira.onrender.com",
+    "http://localhost:5173"
+
+
 ]
 
 
