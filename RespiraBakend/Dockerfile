@@ -29,4 +29,4 @@ RUN python manage.py collectstatic --noinput
 RUN python manage.py migrate --noinput
 
 # Run with Gunicorn
-CMD ["gunicorn", "YOUR_PROJECT_NAME.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]
