@@ -26,7 +26,7 @@ COPY . .
 RUN python manage.py collectstatic --noinput
 
 # Run migrations (important for production)
-RUN python manage.py migrate --noinput
+# RUN python manage.py migrate --noinput
 
 # Run with Gunicorn
 CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]
