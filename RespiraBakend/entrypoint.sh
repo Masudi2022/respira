@@ -52,7 +52,7 @@ fi
 
 # Start Gunicorn
 echo "Starting Gunicorn..."
-exec gunicorn RespiraBakend.wsgi:application \
+exec gunicorn backend.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3 \
     --log-level info
