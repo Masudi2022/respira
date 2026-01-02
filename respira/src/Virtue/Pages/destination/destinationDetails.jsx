@@ -400,7 +400,7 @@ const bookingService = {
   createBooking: async (bookingData) => {
     try {
       // Replace with your actual backend URL
-      const response = await fetch(`${API_BASE_URL}/api/booking/`, {
+      const response = await fetch("/api/booking/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
