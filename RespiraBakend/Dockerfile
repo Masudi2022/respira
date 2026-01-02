@@ -25,7 +25,7 @@ COPY RespiraBakend/ .
 
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod +x RespiraBakend/entrypoint.sh
 
 # Expose the port Gunicorn will run on
 EXPOSE 8000
