@@ -1,0 +1,12 @@
+Django>=4.2,<5.0
+djangorestframework>=3.14
+python-dotenv>=1.0
+
+# CORS
+django-cors-headers>=4.3
+
+# Database
+psycopg2-binary>=2.9
+
+# Production server
+gunicorn
