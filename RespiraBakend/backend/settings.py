@@ -48,10 +48,23 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
     # "http://localhost:5173"
 
 ALLOWED_HOSTS = [
-    "respira-8u3k.onrender.com",
-    "localhost",
     "127.0.0.1",
+    "localhost",
+    "respira-8u3k.onrender.com",
 ]
+
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+
+
+
+
 
 
 
@@ -65,20 +78,25 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_simplejwt",
     "corsheaders",
-    "bookings",
+    'bookings.apps.BookingsConfig',
+    "accounts",
+    "destination",
+    # "destinations",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # MUST be first
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 
 ROOT_URLCONF = "backend.urls"
 
@@ -100,21 +118,56 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = "Lax"
+
+
+
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-import os
+# import os
+# from pathlib import Path
+# import os
+# import dj_database_url
+
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default=os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),
+#         conn_max_age=600,
+#         ssl_require=True,
+#     )
+# }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),   # Short-lived access token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),      # Longer refresh token
+    'ROTATE_REFRESH_TOKENS': True,                    # Better security
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
 from pathlib import Path
-import os
-import dj_database_url
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),
-        conn_max_age=600,
-        ssl_require=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
 
 
 
