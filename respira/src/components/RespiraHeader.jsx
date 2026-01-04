@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { FaSignInAlt } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const TEAL_DARK = "#002d2d";
@@ -14,6 +15,7 @@ export function Header() {
   const [expanded, setExpanded] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
@@ -29,6 +31,12 @@ export function Header() {
     { to: "/about", label: "About" },
     { to: "/contact", label: "Contact" },
   ];
+
+  // Simple function to navigate to login page
+  const handleSignIn = () => {
+    setExpanded(false);
+    navigate("/login");
+  };
 
   return (
     <>
@@ -279,7 +287,7 @@ export function Header() {
                 }}
               />
               
-              {navLinks.map((link, index) => {
+              {navLinks.map((link) => {
                 const isActive = location.pathname === link.to;
                 const isHovered = hoveredLink === link.to;
                 
@@ -389,8 +397,46 @@ export function Header() {
                 );
               })}
 
-              {/* Mobile Book Now Button in Menu */}
-              <div className="d-lg-none mt-4">
+              {/* ===== MOBILE SIGN IN BUTTON IN MENU ===== */}
+              <div className="d-lg-none">
+                {/* Mobile Sign In Button */}
+                <Button
+                  onClick={handleSignIn}
+                  style={{
+                    background: "linear-gradient(135deg, rgba(0, 230, 230, 0.15), rgba(0, 200, 200, 0.1))",
+                    border: "2px solid rgba(0, 230, 230, 0.3)",
+                    borderRadius: "16px",
+                    padding: "1rem 1.5rem",
+                    fontWeight: 600,
+                    fontSize: "1rem",
+                    color: TEAL_LIGHT,
+                    width: "100%",
+                    boxShadow: "0 8px 25px rgba(0, 230, 230, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                    position: "relative",
+                    overflow: "hidden",
+                    marginTop: "1rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "10px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = "0 12px 30px rgba(0, 230, 230, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)";
+                    e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 230, 230, 0.25), rgba(0, 200, 200, 0.2))";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 8px 25px rgba(0, 230, 230, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)";
+                    e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 230, 230, 0.15), rgba(0, 200, 200, 0.1))";
+                  }}
+                >
+                  <FaSignInAlt size={20} />
+                  <span>Sign In</span>
+                </Button>
+
+                {/* Mobile Book Now Button in Menu */}
                 <Button
                   as={NavLink}
                   to="/contact"
@@ -410,6 +456,7 @@ export function Header() {
                     position: "relative",
                     overflow: "hidden",
                     letterSpacing: "0.5px",
+                    marginTop: "1rem",
                   }}
                   className="animated-gradient"
                   onMouseEnter={(e) => {
@@ -434,7 +481,6 @@ export function Header() {
                     }}
                     className="button-shine"
                   />
-                  {/* Animated Border */}
                   <div style={{
                     position: "absolute",
                     top: 0,
@@ -455,8 +501,42 @@ export function Header() {
             </Nav>
           </Navbar.Collapse>
 
-          {/* ===== DESKTOP BOOK NOW BUTTON ===== */}
-          <div className="d-none d-lg-flex align-items-center" style={{ marginLeft: "auto", paddingLeft: "2rem" }}>
+          {/* ===== DESKTOP RIGHT SECTION ===== */}
+          <div className="d-none d-lg-flex align-items-center" style={{ marginLeft: "auto", paddingLeft: "2rem", gap: "1rem" }}>
+            {/* Desktop Sign In Button - Simple click to navigate */}
+            <Button
+              onClick={handleSignIn}
+              style={{
+                background: "linear-gradient(135deg, rgba(0, 230, 230, 0.15), rgba(0, 200, 200, 0.1))",
+                border: "2px solid rgba(0, 230, 230, 0.3)",
+                borderRadius: "50px",
+                padding: "0.6rem 1.2rem",
+                fontWeight: 600,
+                fontSize: "0.9rem",
+                color: TEAL_LIGHT,
+                boxShadow: "0 8px 25px rgba(0, 230, 230, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+                transition: "all 0.3s ease",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                whiteSpace: "nowrap",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px) scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 12px 30px rgba(0, 230, 230, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)";
+                e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 230, 230, 0.25), rgba(0, 200, 200, 0.2))";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0, 230, 230, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)";
+                e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 230, 230, 0.15), rgba(0, 200, 200, 0.1))";
+              }}
+            >
+              <FaSignInAlt size={16} />
+              <span>Sign In</span>
+            </Button>
+
+            {/* Desktop Book Now Button */}
             <Button
               as={NavLink}
               to="/contact"
@@ -501,7 +581,6 @@ export function Header() {
                 }}
                 className="button-shine"
               />
-              {/* Animated Border */}
               <div style={{
                 position: "absolute",
                 top: 0,
@@ -572,17 +651,17 @@ export function Header() {
             .navbar-collapse {
               background: linear-gradient(135deg, rgba(0,45,45,0.99), rgba(0,30,30,0.99));
               backdrop-filter: blur(25px);
-              padding: 30px 25px !important; /* Increased mobile padding */
+              padding: 30px 25px !important;
               border-radius: 0 0 25px 25px;
               margin-top: 15px;
               border-top: 2px solid rgba(212, 180, 83, 0.2);
-              box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+              boxShadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             }
             
             .nav-link {
-              padding: 1.4rem 1.8rem !important; /* Increased mobile nav link padding */
+              padding: 1.4rem 1.8rem !important;
               border-radius: 16px !important;
-              margin: 8px 0 !important; /* Increased margin */
+              margin: 8px 0 !important;
               border: 2px solid transparent !important;
               transition: all 0.3s ease !important;
               position: relative;
@@ -592,7 +671,7 @@ export function Header() {
             .nav-link.active {
               background: linear-gradient(135deg, rgba(0, 230, 230, 0.15), rgba(0, 230, 230, 0.05)) !important;
               border: 2px solid rgba(0, 230, 230, 0.3) !important;
-              box-shadow: 0 8px 25px rgba(0, 230, 230, 0.15) !important;
+              boxShadow: 0 8px 25px rgba(0, 230, 230, 0.15) !important;
             }
             
             .nav-link:hover {
@@ -600,18 +679,32 @@ export function Header() {
               border: 2px solid rgba(255, 255, 255, 0.15) !important;
             }
             
-            /* Mobile Book Now Button */
-            .navbar-collapse .btn {
+            /* Mobile Sign In Button */
+            .navbar-collapse .btn:first-of-type {
               width: 100%;
-              margin-top: 2rem !important; /* Increased margin */
-              padding: 1.4rem !important; /* Increased padding */
+              margin-top: 1rem !important;
+              padding: 1rem 1.5rem !important;
+              border-radius: 16px !important;
+              font-size: 1rem !important;
+              font-weight: 600 !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              gap: 10px !important;
+            }
+            
+            /* Mobile Book Now Button */
+            .navbar-collapse .btn:last-of-type {
+              width: 100%;
+              margin-top: 1rem !important;
+              padding: 1.2rem !important;
               border-radius: 16px !important;
               font-size: 1.1rem !important;
               font-weight: 800 !important;
               background: linear-gradient(135deg, ${GOLD_SOFT}, #e8c86c, ${GOLD_SOFT}) !important;
               background-size: 200% 200% !important;
               color: ${TEAL_DARK} !important;
-              box-shadow: 0 8px 25px rgba(212, 180, 83, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+              boxShadow: 0 8px 25px rgba(212, 180, 83, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
             }
 
             /* Mobile active indicator */
@@ -625,7 +718,7 @@ export function Header() {
               height: 10px;
               background: linear-gradient(135deg, ${TEAL_LIGHT}, ${GOLD_SOFT});
               border-radius: 50%;
-              box-shadow: 0 0 10px ${TEAL_LIGHT};
+              boxShadow: 0 0 10px ${TEAL_LIGHT};
             }
 
             /* Center brand on mobile */
@@ -660,7 +753,7 @@ export function Header() {
           /* Desktop Enhancements */
           @media (min-width: 992px) {
             .navbar {
-              min-height: 100px !important; /* Increased desktop height */
+              min-height: 100px !important;
             }
             
             .nav-link {
@@ -706,11 +799,11 @@ export function Header() {
           .navbar-toggler {
             border: none !important;
             outline: none !important;
-            box-shadow: none !important;
+            boxShadow: none !important;
           }
           
           .navbar-toggler:focus {
-            box-shadow: none !important;
+            boxShadow: none !important;
           }
           
           .nav-link.active {

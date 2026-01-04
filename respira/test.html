@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Booking Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 40px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    button {
+      margin-top: 30px;
+      padding: 12px 30px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .success, .error {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .success { background-color: #d4edda; color: #155724; }
+    .error { background-color: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test Tour Booking Form</h1>
+
+    <form id="bookingForm">
+      <!-- Replace this action URL with your actual Django endpoint -->
+      <!-- Example: https://respira-8u3k.onrender.com/api/bookings/ or whatever your view URL is -->
+      <input type="hidden" name="csrfmiddlewaretoken" value="NOT_NEEDED_FOR_EXTERNAL_TEST">
+
+      <label for="full_name">Full Name *</label>
+      <input type="text" id="full_name" name="full_name" required>
+
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="phone">Phone Number *</label>
+      <input type="text" id="phone" name="phone" required>
+
+      <label for="tour">Tour Name *</label>
+      <select id="tour" name="tour" required>
+        <option value="">-- Select a tour --</option>
+        <option value="Safari Adventure">Safari Adventure</option>
+        <option value="Mountain Trek">Mountain Trek</option>
+        <option value="Beach Paradise">Beach Paradise</option>
+        <option value="City Explorer">City Explorer</option>
+        <option value="Cultural Journey">Cultural Journey</option>
+      </select>
+
+      <label for="message">Additional Message (optional)</label>
+      <textarea id="message" name="message" placeholder="Any special requests or questions..."></textarea>
+
+      <button type="submit">Submit Booking</button>
+    </form>
+
+    <div id="response"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('bookingForm');
+    const responseDiv = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // CHANGE THIS URL TO YOUR ACTUAL DJANGO ENDPOINT
+      const url = 'https://respira-8u3k.onrender.com/your-booking-endpoint/'; 
+      // Example possibilities:
+      // '/bookings/' 
+      // '/api/create-booking/'
+      // 'https://respira-8u3k.onrender.com/submit-booking/'
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // If your Django view requires CSRF token for POST, you'll need to include it.
+            // For pure testing from external HTML, you might temporarily disable CSRF on that view.
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          responseDiv.innerHTML = `<div class="success">Booking submitted successfully! Check your email for confirmation.</div>`;
+          console.log('Success:', result);
+          form.reset();
+        } else {
+          responseDiv.innerHTML = `<div class="error">Error: ${result.detail || JSON.stringify(result)}</div>`;
+          console.error('Error:', result);
+        }
+      } catch (err) {
+        responseDiv.innerHTML = `<div class="error">Network error: ${err.message}<br>Make sure the URL is correct and the server is running.</div>`;
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
