@@ -1,57 +1,57 @@
 #!/bin/bash
-# entrypoint.sh
-
-# Exit immediately if a command exits with a non-zero status
 set -e
 
-echo "Starting entrypoint script..."
+echo "🚀 Starting entrypoint..."
 
-# Wait for database to be ready
-# Adjust DB_HOST and DB_PORT according to your environment
-if [ -n "$DATABASE_URL" ]; then
-    echo "Waiting for database to be ready..."
+# Wait for PostgreSQL if DATABASE_URL exists
+wait_for_postgres() {
+    echo "⏳ Waiting for PostgreSQL..."
     until python - <<END
-import sys, os, psycopg2
+import os, sys
+import psycopg2
 from urllib.parse import urlparse
 
 try:
-    result = urlparse(os.environ['DATABASE_URL'])
+    url = urlparse(os.environ["DATABASE_URL"])
     conn = psycopg2.connect(
-        dbname=result.path[1:],
-        user=result.username,
-        password=result.password,
-        host=result.hostname,
-        port=result.port
+        dbname=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port,
     )
     conn.close()
-except Exception as e:
+except Exception:
     sys.exit(1)
 END
     do
-        echo "Database not ready yet... sleeping 2 seconds"
+        echo "❌ Database not ready... retrying in 2s"
         sleep 2
     done
-    echo "Database is ready!"
+    echo "✅ PostgreSQL is ready!"
+}
+
+if [ -n "$DATABASE_URL" ]; then
+    wait_for_postgres
 else
-    echo "DATABASE_URL not set, skipping database wait."
+    echo "🟢 No DATABASE_URL found → using SQLite"
 fi
 
-# Apply database migrations
-echo "Running migrations..."
+echo "📦 Running migrations..."
 python manage.py migrate --noinput
 
-# Collect static files
-echo "Collecting static files..."
+echo "🎨 Collecting static files..."
 python manage.py collectstatic --noinput
 
-# Optionally create a superuser if environment variables are set
-if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_EMAIL" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
-    echo "Creating superuser..."
-    python manage.py createsuperuser --noinput || echo "Superuser already exists"
+# Create superuser (optional)
+if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && \
+   [ -n "$DJANGO_SUPERUSER_EMAIL" ] && \
+   [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
+    echo "👤 Creating superuser..."
+    python manage.py createsuperuser --noinput || true
 fi
 
-# Start Gunicorn
-echo "Starting Gunicorn..."
+echo "🔥 Starting Gunicorn..."
 exec gunicorn backend.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3 \
