@@ -17,7 +17,6 @@ import {
 import {
   Envelope,
   Lock,
-  ShieldCheck,
   Eye,
   EyeSlash,
   PersonPlus,
@@ -27,22 +26,30 @@ import {
 const Register = () => {
   const navigate = useNavigate();
 
+  // Form state
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSuperuser, setIsSuperuser] = useState(false);
 
+  // UI state
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+
+  // Error handling
+  const [errors, setErrors] = useState({}); // field errors
+  const [generalError, setGeneralError] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError("");
 
+    setErrors({});
+    setGeneralError("");
+
+    // Frontend validation
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setErrors({ confirmPassword: "Passwords do not match" });
       return;
     }
 
@@ -58,19 +65,27 @@ const Register = () => {
 
       navigate("/login", { replace: true });
     } catch (err) {
-      setError("Registration failed. Please try again.");
+      if (err.response && err.response.data) {
+        setErrors(err.response.data);
+      } else {
+        setGeneralError("Registration failed. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Container fluid className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <Container
+      fluid
+      className="min-vh-100 d-flex align-items-center justify-content-center bg-light"
+    >
       <Row className="w-100 justify-content-center">
         <Col xs={12} md={10} lg={8} xl={6}>
           <Card className="shadow-lg border-0" style={{ borderRadius: "20px" }}>
             <Card.Body className="p-4 p-md-5">
 
+              {/* Header */}
               <div className="text-center mb-4">
                 <div
                   className="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
@@ -86,23 +101,29 @@ const Register = () => {
                 <p className="text-muted">Register a new user</p>
               </div>
 
-              {error && (
+              {/* General error */}
+              {generalError && (
                 <Alert variant="danger" className="border-0">
                   <XCircle className="me-2" />
-                  {error}
+                  {generalError}
                 </Alert>
               )}
 
-              <Form onSubmit={handleRegister}>
+              <Form onSubmit={handleRegister} noValidate>
+
                 {/* Username */}
                 <Form.Group className="mb-3">
                   <Form.Label>Username</Form.Label>
                   <FormControl
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    isInvalid={!!errors.username}
                     required
                     className="py-3"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.username}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Email */}
@@ -116,10 +137,14 @@ const Register = () => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      isInvalid={!!errors.email}
                       required
                       className="py-3"
                     />
                   </InputGroup>
+                  <Form.Control.Feedback type="invalid" className="d-block">
+                    {errors.email}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Password */}
@@ -133,16 +158,21 @@ const Register = () => {
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      isInvalid={!!errors.password}
                       required
                       className="py-3"
                     />
                     <Button
                       variant="outline-secondary"
                       onClick={() => setShowPassword(!showPassword)}
+                      type="button"
                     >
                       {showPassword ? <EyeSlash /> : <Eye />}
                     </Button>
                   </InputGroup>
+                  <Form.Control.Feedback type="invalid" className="d-block">
+                    {errors.password}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Confirm Password */}
@@ -152,12 +182,16 @@ const Register = () => {
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    isInvalid={!!errors.confirmPassword}
                     required
                     className="py-3"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.confirmPassword}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
-                {/* Superuser Checkbox */}
+                {/* Superuser */}
                 <FormCheck
                   type="checkbox"
                   className="mb-4"
@@ -190,6 +224,7 @@ const Register = () => {
                 </Button>
               </Form>
 
+              {/* Footer */}
               <div className="text-center mt-4">
                 <small className="text-muted">
                   Already have an account?{" "}
