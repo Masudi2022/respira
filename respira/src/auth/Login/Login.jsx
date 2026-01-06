@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../../config/api";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Row,
@@ -22,8 +22,6 @@ import {
   EyeSlash,
   PersonCircle,
   XCircle,
-  PersonPlus,
-  ArrowRight,
 } from "react-bootstrap-icons";
 
 const Login = () => {
@@ -121,23 +119,6 @@ const Login = () => {
                           Sign in to manage your bookings and reservations
                         </p>
                       </div>
-
-                      {/* Register Link in Left Panel */}
-                      <div className="mt-5 pt-3">
-                        <p className="text-white text-opacity-85 mb-3">
-                          Don't have an account?
-                        </p>
-                        <Link to="/register">
-                          <Button 
-                            variant="outline-light" 
-                            className="rounded-pill px-4 py-2 fw-medium d-flex align-items-center justify-content-center gap-2 w-100"
-                          >
-                            <PersonPlus size={18} />
-                            Create New Account
-                            <ArrowRight size={18} />
-                          </Button>
-                        </Link>
-                      </div>
                     </div>
                   </div>
                 </Col>
@@ -145,23 +126,6 @@ const Login = () => {
                 {/* Right Panel - Login Form */}
                 <Col md={6}>
                   <div className="p-4 p-md-5 h-100 d-flex flex-column justify-content-center">
-                    {/* Register Link for Mobile */}
-                    <div className="d-block d-md-none text-center mb-4">
-                      <p className="text-muted mb-2">
-                        Don't have an account?
-                      </p>
-                      <Link to="/register">
-                        <Button 
-                          variant="outline-primary" 
-                          className="rounded-pill px-4 py-2 fw-medium d-flex align-items-center justify-content-center gap-2"
-                          style={{ borderColor: "#0d9488", color: "#0d9488" }}
-                        >
-                          <PersonPlus size={18} />
-                          Create Account
-                        </Button>
-                      </Link>
-                    </div>
-
                     <div className="text-center mb-5">
                       <div className="d-flex justify-content-center mb-3">
                         <div 
@@ -176,9 +140,6 @@ const Login = () => {
                         </div>
                       </div>
                       <h2 className="fw-bold text-dark mb-2">Welcome Back</h2>
-                      <p className="text-muted">
-                        Sign in to access your account
-                      </p>
                     </div>
 
                     {error && (
@@ -200,8 +161,7 @@ const Login = () => {
                     <Form onSubmit={handleLogin} className="mt-2">
                       {/* Email Input */}
                       <Form.Group className="mb-4">
-                        <Form.Label className="fw-medium text-dark mb-2 d-flex align-items-center">
-                          <Envelope className="me-2" size={16} />
+                        <Form.Label className="fw-medium text-dark mb-2">
                           Email Address
                         </Form.Label>
                         <InputGroup>
@@ -213,7 +173,6 @@ const Login = () => {
                           </InputGroup.Text>
                           <FormControl
                             type="email"
-                            placeholder="Enter your email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -228,8 +187,7 @@ const Login = () => {
 
                       {/* Password Input */}
                       <Form.Group className="mb-4">
-                        <Form.Label className="fw-medium text-dark mb-2 d-flex align-items-center">
-                          <Lock className="me-2" size={16} />
+                        <Form.Label className="fw-medium text-dark mb-2">
                           Password
                         </Form.Label>
                         <InputGroup>
@@ -241,7 +199,6 @@ const Login = () => {
                           </InputGroup.Text>
                           <FormControl
                             type={showPassword ? "text" : "password"}
-                            placeholder="Enter your password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -308,30 +265,24 @@ const Login = () => {
                             Signing In...
                           </>
                         ) : (
-                          <>
-                            Sign In
-                            <ArrowRight className="ms-2" size={18} />
-                          </>
+                          "Sign In"
                         )}
                       </Button>
-
-                      {/* Register Link for Desktop (hidden on mobile since it's in left panel) */}
-                      <div className="d-none d-md-block text-center mt-4 pt-3 border-top">
-                        <p className="text-muted mb-3">
-                          Don't have an account?
-                        </p>
-                        <Link to="/register">
-                          <Button 
-                            variant="outline-primary" 
-                            className="rounded-pill px-4 py-2 fw-medium d-flex align-items-center justify-content-center gap-2 w-100"
-                            style={{ borderColor: "#0d9488", color: "#0d9488" }}
-                          >
-                            <PersonPlus size={18} />
-                            Create New Account
-                          </Button>
-                        </Link>
-                      </div>
                     </Form>
+
+                    {/* Register Link */}
+                    <div className="text-center mt-3">
+                      <p className="text-muted mb-2">
+                        Don't have an account?{" "}
+                        <a 
+                          href="/register" 
+                          className="text-decoration-none fw-medium"
+                          style={{ color: "#0d9488" }}
+                        >
+                          Register here
+                        </a>
+                      </p>
+                    </div>
 
                     {/* Footer */}
                     <div className="text-center mt-4 pt-3">
@@ -361,19 +312,6 @@ const Login = () => {
         
         .form-check-input:focus {
           box-shadow: 0 0 0 0.25rem rgba(13, 148, 136, 0.25);
-        }
-        
-        .btn-outline-primary:hover {
-          background-color: #0d9488;
-          color: white;
-        }
-        
-        .btn-outline-light:hover {
-          background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .error-alert {
-          animation-duration: 0.5s;
         }
       `}</style>
     </Container>

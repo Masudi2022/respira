@@ -1,6 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 /* =====================
+   PUBLIC HEADER
+===================== */
+import RespiraHeader from "./components/RespiraHeader";
+
+/* =====================
    ADMIN LAYOUT
 ===================== */
 import AdminLayout from "./admin/adminComponents/AdminLayout";
@@ -23,7 +28,6 @@ import Login from "./auth/Login/Login";
 import Register from "./auth/register";
 import MyBookings from "./Virtue/Pages/booking/MyBookings";
 
-
 /* =====================
    ADMIN PAGES
 ===================== */
@@ -39,7 +43,7 @@ const isAuthenticated = () => Boolean(localStorage.getItem("access_token"));
 const getUserRole = () => localStorage.getItem("role") || "user";
 
 /* =====================
-   PROTECTED ROUTE
+   ROUTE GUARDS
 ===================== */
 const ProtectedRoute = ({ children, allowedRoles = ["user", "admin"] }) => {
   if (!isAuthenticated()) return <Navigate to="/login" replace />;
@@ -52,20 +56,12 @@ const ProtectedRoute = ({ children, allowedRoles = ["user", "admin"] }) => {
   return children;
 };
 
-/* =====================
-   ADMIN ROUTE
-===================== */
 const AdminRoute = ({ children }) => {
   if (!isAuthenticated()) return <Navigate to="/login" replace />;
-
   if (getUserRole() !== "admin") return <Navigate to="/my-bookings" replace />;
-
   return children;
 };
 
-/* =====================
-   PUBLIC ROUTE (LOGIN / REGISTER)
-===================== */
 const PublicRoute = ({ children }) => {
   if (isAuthenticated()) {
     const role = getUserRole();
@@ -75,118 +71,135 @@ const PublicRoute = ({ children }) => {
 };
 
 /* =====================
+   PUBLIC LAYOUT
+===================== */
+const PublicLayout = ({ children }) => {
+  return (
+    <>
+      <RespiraHeader />
+      <main>{children}</main>
+    </>
+  );
+};
+
+/* =====================
    APP
 ===================== */
 function App() {
   return (
-    <div className="app-layout">
-      <main className="main-content">
-        <Routes>
+    <Routes>
+      {/* =====================
+          PUBLIC ROUTES
+      ====================== */}
+      <Route path="/" element={<PublicLayout><Maskani /></PublicLayout>} />
+      <Route path="/destinations" element={<PublicLayout><PopularDestinations /></PublicLayout>} />
+      <Route path="/destination/:slug" element={<PublicLayout><DestinationDetail /></PublicLayout>} />
+      <Route path="/gallery" element={<PublicLayout><Gallery /></PublicLayout>} />
+      <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+      <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+      <Route path="/adventure" element={<PublicLayout><Adventure /></PublicLayout>} />
 
-          {/* =====================
-              PUBLIC ROUTES
-          ====================== */}
-          <Route path="/" element={<Maskani />} />
-          <Route path="/destinations" element={<PopularDestinations />} />
-          <Route path="/destination/:slug" element={<DestinationDetail />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/adventure" element={<Adventure />} />
+      {/* =====================
+          AUTH ROUTES
+      ====================== */}
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <PublicLayout>
+              <Login />
+            </PublicLayout>
+          </PublicRoute>
+        }
+      />
 
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <PublicLayout>
+              <Register />
+            </PublicLayout>
+          </PublicRoute>
+        }
+      />
 
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
+      {/* =====================
+          USER ROUTES (NO PUBLIC HEADER)
+      ====================== */}
+      <Route
+        path="/my-bookings"
+        element={
+          <ProtectedRoute allowedRoles={["user", "admin"]}>
+            <MyBookings />
+          </ProtectedRoute>
+        }
+      />
 
-          {/* =====================
-              USER ROUTES
-          ====================== */}
-          <Route
-            path="/my-bookings"
-            element={
-              <ProtectedRoute allowedRoles={["user", "admin"]}>
-                <MyBookings />
-              </ProtectedRoute>
-            }
-          />
+      {/* =====================
+          ADMIN ROUTES (ADMIN LAYOUT ONLY)
+      ====================== */}
+      <Route
+        path="/admin/home"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <AdminHome />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
 
-          {/* =====================
-              ADMIN ROUTES WITH ADMIN LAYOUT
-          ====================== */}
-          <Route
-            path="/admin/home"
-            element={
-              <AdminRoute>
-                <AdminLayout>
-                  <AdminHome />
-                </AdminLayout>
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/destinations"
-            element={
-              <AdminRoute>
-                <AdminLayout>
-                  <AdminDestinations />
-                </AdminLayout>
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/bookings"
-            element={
-              <AdminRoute>
-                <AdminLayout>
-                  <AdminBookings />
-                </AdminLayout>
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/users"
-            element={
-              <AdminRoute>
-                <AdminLayout>
-                  <AdminUsers />
-                </AdminLayout>
-              </AdminRoute>
-            }
-          />
+      <Route
+        path="/admin/destinations"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <AdminDestinations />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
 
-          {/* =====================
-              ADMIN FALLBACK
-          ====================== */}
-          <Route
-            path="/admin/*"
-            element={
-              <AdminRoute>
-                <Navigate to="/admin/home" replace />
-              </AdminRoute>
-            }
-          />
+      <Route
+        path="/admin/bookings"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <AdminBookings />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
 
-          {/* =====================
-              GLOBAL FALLBACK
-          ====================== */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-    </div>
+      <Route
+        path="/admin/users"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <AdminUsers />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
+
+      {/* =====================
+          ADMIN FALLBACK
+      ====================== */}
+      <Route
+        path="/admin/*"
+        element={
+          <AdminRoute>
+            <Navigate to="/admin/home" replace />
+          </AdminRoute>
+        }
+      />
+
+      {/* =====================
+          GLOBAL FALLBACK
+      ====================== */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

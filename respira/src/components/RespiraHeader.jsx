@@ -10,7 +10,7 @@ const GOLD_SOFT = "#d4b453";
 const CORAL_WHITE = "#ffffff";
 const TEAL_MEDIUM = "#006666";
 
-export function Header() {
+export default function RespiraHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
