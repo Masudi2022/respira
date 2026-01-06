@@ -40,16 +40,26 @@ const Login = () => {
 
     try {
       const res = await api.post("/auth/login/", {
-        username: email,
-        password,
-      });
+  username: email,
+  password,
+});
 
-      localStorage.setItem("access_token", res.data.access);
-      localStorage.setItem("refresh_token", res.data.refresh);
-      localStorage.setItem("user_email", res.data.email);
-      localStorage.setItem("role", res.data.role);
+// SAVE TOKENS
+localStorage.setItem("access_token", res.data.access);
+localStorage.setItem("refresh_token", res.data.refresh);
 
-      navigate("/my-bookings", { replace: true });
+// SAVE USER DATA (CORRECT WAY)
+localStorage.setItem("role", res.data.user.role);
+localStorage.setItem("user_email", res.data.user.email);
+localStorage.setItem("username", res.data.user.username);
+
+// REDIRECT BASED ON ROLE
+if (res.data.user.role === "admin") {
+  navigate("/admin/home", { replace: true });
+} else {
+  navigate("/my-bookings", { replace: true });
+}
+
     } catch (error) {
       setError("Invalid email or password. Please try again.");
       const alertElement = document.querySelector('.error-alert');

@@ -1,18 +1,10 @@
-from django.urls import path
-from .views import (
-    BookingCreateView,
-    BookingListView,
-    BookingConfirmView,
-    BookingCancelView,
-    BookingDeleteView,
-)
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import BookingViewSet
+
+router = DefaultRouter()
+router.register(r"bookings", BookingViewSet, basename="booking")
 
 urlpatterns = [
-    path("bookings/", BookingCreateView.as_view(), name="booking-create"),
-    path("bookings/my-bookings/", BookingListView.as_view(), name="booking-list"),
-
-    # ADMIN ACTIONS
-    path("bookings/<int:id>/confirm/", BookingConfirmView.as_view(), name="booking-confirm"),
-    path("bookings/<int:id>/cancel/", BookingCancelView.as_view(), name="booking-cancel"),
-    path("bookings/<int:id>/delete/", BookingDeleteView.as_view(), name="booking-delete"),
+    path("", include(router.urls)),
 ]

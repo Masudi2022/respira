@@ -1,14 +1,7 @@
-from django.urls import path
-from .views import (
-    DestinationListAPIView,
-    DestinationDetailAPIView,
-)
+from rest_framework.routers import DefaultRouter
+from .views import DestinationViewSet
 
-urlpatterns = [
-    path("destinations/", DestinationListAPIView.as_view(), name="destination-list"),
-    path(
-        "destinations/<slug:slug>/",
-        DestinationDetailAPIView.as_view(),
-        name="destination-detail",
-    ),
-]
+router = DefaultRouter()
+router.register(r"destinations", DestinationViewSet, basename="destination")
+
+urlpatterns = router.urls

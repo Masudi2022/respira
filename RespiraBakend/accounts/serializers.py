@@ -25,3 +25,56 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
         }
 
         return data
+    
+from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
+User = get_user_model()
+
+
+class AdminUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "username",
+            "email",
+            "is_active",
+            "is_staff",
+            "date_joined",
+        ]
+        read_only_fields = [
+            "id",
+            "username",
+            "email",
+            "date_joined",
+        ]
+
+from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
+User = get_user_model()
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8)
+    is_superuser = serializers.BooleanField(required=False, default=False)
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "email", "password", "is_superuser"]
+
+    def create(self, validated_data):
+        password = validated_data.pop("password")
+        is_superuser = validated_data.pop("is_superuser", False)
+
+        user = User(**validated_data)
+        user.set_password(password)
+
+        if is_superuser:
+            user.is_superuser = True
+            user.is_staff = True
+        else:
+            user.is_staff = False
+
+        user.save()
+        return user
