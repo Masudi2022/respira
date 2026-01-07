@@ -1,4 +1,10 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+/* =====================
+   SPLASH SCREEN
+===================== */
+import SplashScreen from "./components/SplashScreen";
 
 /* =====================
    PUBLIC HEADER
@@ -73,24 +79,29 @@ const PublicRoute = ({ children }) => {
 /* =====================
    PUBLIC LAYOUT
 ===================== */
-const PublicLayout = ({ children }) => {
-  return (
-    <>
-      <RespiraHeader />
-      <main>{children}</main>
-    </>
-  );
-};
+const PublicLayout = ({ children }) => (
+  <>
+    <RespiraHeader />
+    <main>{children}</main>
+  </>
+);
 
 /* =====================
    APP
 ===================== */
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <SplashScreen />;
+
   return (
     <Routes>
-      {/* =====================
-          PUBLIC ROUTES
-      ====================== */}
+      {/* PUBLIC ROUTES */}
       <Route path="/" element={<PublicLayout><Maskani /></PublicLayout>} />
       <Route path="/destinations" element={<PublicLayout><PopularDestinations /></PublicLayout>} />
       <Route path="/destination/:slug" element={<PublicLayout><DestinationDetail /></PublicLayout>} />
@@ -99,105 +110,51 @@ function App() {
       <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
       <Route path="/adventure" element={<PublicLayout><Adventure /></PublicLayout>} />
 
-      {/* =====================
-          AUTH ROUTES
-      ====================== */}
-      <Route
-        path="/login"
-        element={
-          <PublicRoute>
-            <PublicLayout>
-              <Login />
-            </PublicLayout>
-          </PublicRoute>
-        }
-      />
+      {/* AUTH ROUTES */}
+      <Route path="/login" element={
+        <PublicRoute>
+          <PublicLayout><Login /></PublicLayout>
+        </PublicRoute>
+      } />
 
-      <Route
-        path="/register"
-        element={
-          <PublicRoute>
-            <PublicLayout>
-              <Register />
-            </PublicLayout>
-          </PublicRoute>
-        }
-      />
+      <Route path="/register" element={
+        <PublicRoute>
+          <PublicLayout><Register /></PublicLayout>
+        </PublicRoute>
+      } />
 
-      {/* =====================
-          USER ROUTES (NO PUBLIC HEADER)
-      ====================== */}
-      <Route
-        path="/my-bookings"
-        element={
-          <ProtectedRoute allowedRoles={["user", "admin"]}>
-            <MyBookings />
-          </ProtectedRoute>
-        }
-      />
+      {/* USER ROUTES */}
+      <Route path="/my-bookings" element={
+        <ProtectedRoute>
+          <MyBookings />
+        </ProtectedRoute>
+      } />
 
-      {/* =====================
-          ADMIN ROUTES (ADMIN LAYOUT ONLY)
-      ====================== */}
-      <Route
-        path="/admin/home"
-        element={
-          <AdminRoute>
-            <AdminLayout>
-              <AdminHome />
-            </AdminLayout>
-          </AdminRoute>
-        }
-      />
+      {/* ADMIN ROUTES */}
+      <Route path="/admin/home" element={
+        <AdminRoute>
+          <AdminLayout><AdminHome /></AdminLayout>
+        </AdminRoute>
+      } />
 
-      <Route
-        path="/admin/destinations"
-        element={
-          <AdminRoute>
-            <AdminLayout>
-              <AdminDestinations />
-            </AdminLayout>
-          </AdminRoute>
-        }
-      />
+      <Route path="/admin/destinations" element={
+        <AdminRoute>
+          <AdminLayout><AdminDestinations /></AdminLayout>
+        </AdminRoute>
+      } />
 
-      <Route
-        path="/admin/bookings"
-        element={
-          <AdminRoute>
-            <AdminLayout>
-              <AdminBookings />
-            </AdminLayout>
-          </AdminRoute>
-        }
-      />
+      <Route path="/admin/bookings" element={
+        <AdminRoute>
+          <AdminLayout><AdminBookings /></AdminLayout>
+        </AdminRoute>
+      } />
 
-      <Route
-        path="/admin/users"
-        element={
-          <AdminRoute>
-            <AdminLayout>
-              <AdminUsers />
-            </AdminLayout>
-          </AdminRoute>
-        }
-      />
+      <Route path="/admin/users" element={
+        <AdminRoute>
+          <AdminLayout><AdminUsers /></AdminLayout>
+        </AdminRoute>
+      } />
 
-      {/* =====================
-          ADMIN FALLBACK
-      ====================== */}
-      <Route
-        path="/admin/*"
-        element={
-          <AdminRoute>
-            <Navigate to="/admin/home" replace />
-          </AdminRoute>
-        }
-      />
-
-      {/* =====================
-          GLOBAL FALLBACK
-      ====================== */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

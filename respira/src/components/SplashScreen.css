@@ -1,0 +1,141 @@
+/* OCEAN BACKGROUND */
+.ocean-splash {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #001f3f 0%,
+    #003566 35%,
+    #1ecbe1 75%,
+    #a9def9 100%
+  );
+  overflow: hidden;
+  z-index: 9999;
+}
+
+/* LIGHT RAYS */
+.light-rays {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(255,255,255,0.15),
+    transparent 60%
+  );
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* WATER DROP */
+.water-drop {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  width: 18px;
+  height: 30px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  animation: dropFall 1.8s ease-in forwards;
+}
+
+@keyframes dropFall {
+  to { top: 55%; opacity: 0; }
+}
+
+/* RIPPLE */
+.ripple {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.ripple-1 {
+  animation: rippleExpand 2.5s ease-out forwards;
+  animation-delay: 1.7s;
+}
+
+.ripple-2 {
+  animation: rippleExpand 3.2s ease-out forwards;
+  animation-delay: 2.2s;
+}
+
+@keyframes rippleExpand {
+  from { width: 20px; height: 20px; opacity: 0.9; }
+  to { width: 600px; height: 600px; opacity: 0; }
+}
+
+/* BUBBLES */
+.bubble {
+  position: absolute;
+  bottom: -50px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  animation: floatUp 8s linear infinite;
+}
+
+.b1 { left: 20%; width: 10px; height: 10px; animation-delay: 2s; }
+.b2 { left: 50%; width: 14px; height: 14px; animation-delay: 4s; }
+.b3 { left: 75%; width: 8px; height: 8px; animation-delay: 1s; }
+
+@keyframes floatUp {
+  to { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* CONTENT */
+.splash-content {
+  position: relative;
+  z-index: 3;
+  margin-top: 120px;
+}
+
+/* TEXT */
+.welcome-title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  color: #ffd166;
+}
+
+.tagline {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+/* TEXT FADE */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.8s forwards;
+}
+
+.delay-2 { animation-delay: 2s; }
+.delay-3 { animation-delay: 3s; }
+.delay-4 { animation-delay: 4s; }
+.delay-5 { animation-delay: 5s; }
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* BRAND PULSE */
+.pulse {
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}

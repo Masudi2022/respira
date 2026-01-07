@@ -529,3 +529,127 @@
     font-size: 1.5rem;
   }
 }
+
+/* Add to existing styles.css */
+
+.sample-data-warning {
+  position: relative;
+  z-index: 2;
+  margin-top: 15px;
+}
+
+.sample-data-warning .alert {
+  backdrop-filter: blur(10px);
+  border-left: 4px solid #ffc107;
+}
+
+/* Image fallback placeholder */
+.card-image-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #008080, #00a8a8);
+  opacity: 0;
+  z-index: -1;
+  border-radius: 24px 24px 0 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Loading state for images */
+.card-image.loading {
+  opacity: 0.3;
+  filter: blur(5px);
+}
+
+.card-image.loaded {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Demo badge for sample data */
+.demo-badge {
+  position: absolute;
+  top: 20px;
+  right: 70px;
+  background: rgba(255, 193, 7, 0.9);
+  color: #333;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 2;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Retry button styling */
+.retry-btn {
+  background: transparent;
+  border: 2px solid #008080;
+  color: #008080;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.retry-btn:hover {
+  background: #008080;
+  color: white;
+}
+
+/* Improved error state */
+.error-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.error-card h4 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.error-card p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+/* Mobile adjustments for warnings */
+@media (max-width: 768px) {
+  .sample-data-warning .alert {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+  
+  .demo-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    right: 60px;
+  }
+}
