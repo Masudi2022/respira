@@ -10,6 +10,7 @@ import SplashScreen from "./components/SplashScreen";
    PUBLIC HEADER
 ===================== */
 import RespiraHeader from "./components/RespiraHeader";
+import RespiraFooter from "./components/RespiraFooter";
 
 /* =====================
    ADMIN LAYOUT
@@ -83,6 +84,7 @@ const PublicLayout = ({ children }) => (
   <>
     <RespiraHeader />
     <main>{children}</main>
+    <RespiraFooter />
   </>
 );
 
@@ -93,7 +95,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 5000);
+    const timer = setTimeout(() => setLoading(false), 6000);
     return () => clearTimeout(timer);
   }, []);
 

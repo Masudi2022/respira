@@ -19,7 +19,7 @@ const GOLD_SOFT = "#d4b453";
 const TEXT_LIGHT = "#e6f2f1";
 const TEXT_MUTED = "#b8d1ce";
 
-export function RespiraFooter() {
+export default function RespiraFooter() {
   return (
     <footer
       style={{
