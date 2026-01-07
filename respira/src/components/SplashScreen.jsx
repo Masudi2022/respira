@@ -26,7 +26,7 @@ const SplashScreen = () => {
           <Col md={9} className="text-center text-white splash-content">
 
             <h1 className="fade-in delay-2 welcome-title">
-              Karibu Zanzibar 🌴
+              Welcome Zanzibar 🌴
             </h1>
 
             <h2 className="fade-in delay-3 brand-title pulse">
